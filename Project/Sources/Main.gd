@@ -12,7 +12,6 @@ func _ready():
 
 func new_game():
 	$Character.start($StartPosition.position)
-	$StartTimer.start()
 
 func _process(_delta):
 	if Input.is_action_pressed("ui_cancel"):

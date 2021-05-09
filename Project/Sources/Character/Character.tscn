@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Art/Character/character_idle_1.png" type="Texture" id=1]
 [ext_resource path="res://Art/Character/character_idle_2.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Sources/Character/Character.gd" type="Script" id=4]
 [ext_resource path="res://Art/Character/character_walk_0.png" type="Texture" id=5]
 [ext_resource path="res://Art/Character/character_walk_1.png" type="Texture" id=6]
+[ext_resource path="res://Sources/Disk/Disk.tscn" type="PackedScene" id=7]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -37,3 +38,9 @@ animation = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )
+
+[node name="Disk" parent="." instance=ExtResource( 7 )]
+visible = false
+position = Vector2( 44.25, -0.5 )
+
+[node name="DiskTimer" type="Timer" parent="."]
