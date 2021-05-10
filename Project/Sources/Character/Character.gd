@@ -3,6 +3,12 @@ extends Area2D
 export var speed = 400  # How fast the character will move (pixels/sec).
 var screen_size  # Size of the game window.
 
+var available_throw = true
+var throw_direction : Vector2 = Vector2.RIGHT
+
+export (PackedScene) var Disk
+var myDisk = null
+
 signal hit
 
 # Called when the node enters the scene tree for the first time.
@@ -11,6 +17,7 @@ func _ready():
 	screen_size = get_viewport_rect().size
 	connect("body_entered",self, "_on_Character_body_entered")
 	$DiskTimer.connect("timeout", self, "_on_DiskTimer_timeout")
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -34,9 +41,14 @@ func _process(delta):
 	position.x = clamp(position.x, 0, screen_size.x)
 	position.y = clamp(position.y, 0, screen_size.y)
 	
-	if Input.is_action_pressed("ui_attack"):
-		$Disk.show()
+	if Input.is_action_pressed("ui_attack") and available_throw:
+		myDisk = Disk.instance()
+		myDisk.global_position = $DiskStart.global_position
+		get_parent().add_child(myDisk)
+		myDisk.throw(throw_direction)
 		$DiskTimer.start()
+		$DiskTimer.connect("timeout", myDisk, "destroy")
+		available_throw = false
 
 func start(pos):
 	position = pos
@@ -49,4 +61,4 @@ func _on_Character_body_entered(_body):
 	$CollisionShape2D.set_deferred("disabled", true)
 	
 func _on_DiskTimer_timeout():
-	$Disk.hide()
+	available_throw = true
