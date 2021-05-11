@@ -42,13 +42,18 @@ func _process(delta):
 	position.y = clamp(position.y, 0, screen_size.y)
 	
 	if Input.is_action_pressed("ui_attack") and available_throw:
+		throw_direction = get_viewport().get_mouse_position() - global_position
 		myDisk = Disk.instance()
-		myDisk.global_position = $DiskStart.global_position
+		myDisk.global_position = global_position
 		get_parent().add_child(myDisk)
 		myDisk.throw(throw_direction)
 		$DiskTimer.start()
 		$DiskTimer.connect("timeout", myDisk, "destroy")
 		available_throw = false
+
+func _input(event):
+	if event is InputEventMouseMotion:
+		get_parent().get_node("Sprite").position = get_viewport().get_mouse_position()
 
 func start(pos):
 	position = pos
