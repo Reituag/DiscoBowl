@@ -67,3 +67,4 @@ func _on_Character_body_entered(_body):
 	
 func _on_DiskTimer_timeout():
 	available_throw = true
+	$AudioStreamPlayer.play()
