@@ -1,6 +1,6 @@
 extends Area2D
 
-export var speed = 800 # pixels/sec
+const speed = 1000 # pixels/sec
 
 var throw_direction = Vector2.UP
 var moving = false

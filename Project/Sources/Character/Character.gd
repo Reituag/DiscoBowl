@@ -1,6 +1,6 @@
-extends Area2D
+extends KinematicBody2D
 
-export var speed = 400  # How fast the character will move (pixels/sec).
+const speed = 400  # How fast the character will move (pixels/sec).
 var screen_size  # Size of the game window.
 
 var available_throw = true
@@ -20,7 +20,7 @@ func _ready():
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _physics_process(delta):
 	var velocity = Vector2()  # The player's movement vector.
 	if Input.is_action_pressed("ui_right"):
 		velocity.x += 1
@@ -30,6 +30,7 @@ func _process(delta):
 		velocity.y += 1
 	if Input.is_action_pressed("ui_up"):
 		velocity.y -= 1
+	
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * speed
 		$AnimatedSprite.play("walk")
@@ -37,11 +38,9 @@ func _process(delta):
 	else:
 		$AnimatedSprite.play("idle")
 	
-	position += velocity * delta
-	position.x = clamp(position.x, 0, screen_size.x)
-	position.y = clamp(position.y, 0, screen_size.y)
+	move_and_slide(velocity)
 	
-	if Input.is_action_pressed("ui_attack") and available_throw:
+	if Input.is_action_just_released("ui_attack") and available_throw:
 		throw_direction = get_viewport().get_mouse_position() - global_position
 		myDisk = Disk.instance()
 		myDisk.global_position = global_position
@@ -50,10 +49,6 @@ func _process(delta):
 		$DiskTimer.start()
 		$DiskTimer.connect("timeout", myDisk, "destroy")
 		available_throw = false
-
-func _input(event):
-	if event is InputEventMouseMotion:
-		get_parent().get_node("Sprite").position = get_viewport().get_mouse_position()
 
 func start(pos):
 	position = pos
