@@ -41,11 +41,21 @@ func _physics_process(delta):
 	move_and_slide(velocity)
 	
 	if Input.is_action_just_released("ui_attack") and available_throw:
+		# Get throw direction
 		throw_direction = get_viewport().get_mouse_position() - global_position
+		
+		# Disk creation
 		myDisk = Disk.instance()
-		myDisk.global_position = global_position
+		myDisk.global_position = global_position \
+			+ throw_direction.normalized()*35.0
 		get_parent().add_child(myDisk)
-		myDisk.throw(throw_direction)
+		
+		# Disk throwing
+#		myDisk.throw(throw_direction)
+		print(throw_direction)
+		myDisk.apply_central_impulse(throw_direction.normalized() * myDisk.speed)
+		
+		# timer management
 		$DiskTimer.start()
 		$DiskTimer.connect("timeout", myDisk, "destroy")
 		available_throw = false

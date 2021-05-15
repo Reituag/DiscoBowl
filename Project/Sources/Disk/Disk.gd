@@ -1,4 +1,4 @@
-extends Area2D
+extends RigidBody2D
 
 const speed = 1000 # pixels/sec
 
@@ -9,15 +9,15 @@ var moving = false
 func _ready():
 	pass # Replace with function body.
 
-func throw(direction):
-	show()
-	throw_direction = direction.normalized()
-	moving = true
+#func throw(direction):
+#	show()
+#	throw_direction = direction.normalized()
+#	moving = true
 
 func destroy():
 	queue_free()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	if moving:
-		position += throw_direction * speed * delta
+#func _process(delta):
+#	if moving:
+#		position += throw_direction * speed * delta
