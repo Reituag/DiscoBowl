@@ -2,21 +2,18 @@ extends KinematicBody2D
 
 const speed = 400  # How fast the character will move (pixels/sec).
 
-var has_disk = true
-
 export (PackedScene) var Disk
-var myDisk = null
+var myDisk   = null
+var has_disk = true
 
 signal hit
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	hide()
+	$CatchArea.connect("body_entered", self, "_on_CatchArea_body_entered")
 #	connect("body_entered",self, "_on_Character_body_entered")
 #	$DiskTimer.connect("timeout", self, "_on_DiskTimer_timeout")
-	
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	#######################
 	# Movement management #
@@ -40,6 +37,9 @@ func _physics_process(delta):
 	
 	move_and_slide(velocity)
 	
+	#######################
+	# Throwing management #
+	#######################
 	
 	# Get throw direction
 	var throw_direction = get_viewport().get_mouse_position() - global_position
@@ -63,12 +63,18 @@ func start(pos):
 	show()
 	$CollisionShape2D.disabled = false
 
-func _on_Character_body_entered(_body):
-#    hide()  # Player disappears after being hit.
-	emit_signal("hit")
-	$CollisionShape2D.set_deferred("disabled", true)
+#func _on_Character_body_entered(_body):
+#	emit_signal("hit")
+#	$CollisionShape2D.set_deferred("disabled", true)
 	
 func _on_disk_destroyed():
 	has_disk = true
 	myDisk = null
 	$AudioStreamPlayer.play()
+
+func _on_CatchArea_body_entered(body):
+	if body == myDisk:
+		var disk_to_me = myDisk.global_position - global_position
+		# Dot product : if the disk is moving towards me, it is destroyed
+		if disk_to_me.dot(myDisk.velocity) < 0:
+			myDisk.destroy()

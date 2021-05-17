@@ -1,4 +1,5 @@
 extends KinematicBody2D
+class_name Disk
 
 const speed = 1200 # pixels/sec
 const max_bounces = 4
@@ -24,10 +25,18 @@ func _physics_process(delta):
 	if collision:
 		bounces += 1
 		
-		if bounces <= max_bounces:
+		if collision.collider.is_class("Disk"):
+			# When 2 disk collide, they destroy each other
+			collision.collider.destroy()
+			destroy()
+			
+		elif bounces <= max_bounces:
 			velocity = velocity.bounce(collision.normal)
 			if collision.collider.has_method("hit"):
 				collision.collider.hit()
 		else:
-			emit_signal("destroyed")
-			queue_free()
+			destroy()
+
+func destroy():
+	emit_signal("destroyed")
+	queue_free()
