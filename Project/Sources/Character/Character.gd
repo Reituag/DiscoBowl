@@ -1,10 +1,8 @@
 extends KinematicBody2D
 
 const speed = 400  # How fast the character will move (pixels/sec).
-var screen_size  # Size of the game window.
 
-var available_throw = true
-var throw_direction : Vector2 = Vector2.RIGHT
+var has_disk = true
 
 export (PackedScene) var Disk
 var myDisk = null
@@ -14,14 +12,16 @@ signal hit
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	hide()
-	screen_size = get_viewport_rect().size
-	connect("body_entered",self, "_on_Character_body_entered")
-	$DiskTimer.connect("timeout", self, "_on_DiskTimer_timeout")
+#	connect("body_entered",self, "_on_Character_body_entered")
+#	$DiskTimer.connect("timeout", self, "_on_DiskTimer_timeout")
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	var velocity = Vector2()  # The player's movement vector.
+	#######################
+	# Movement management #
+	#######################
+	var velocity = Vector2()
 	if Input.is_action_pressed("ui_right"):
 		velocity.x += 1
 	if Input.is_action_pressed("ui_left"):
@@ -40,25 +40,23 @@ func _physics_process(delta):
 	
 	move_and_slide(velocity)
 	
-	if Input.is_action_just_released("ui_attack") and available_throw:
-		# Get throw direction
-		throw_direction = get_viewport().get_mouse_position() - global_position
-		
+	
+	# Get throw direction
+	var throw_direction = get_viewport().get_mouse_position() - global_position
+	var disk_pop_position = $Origin/DiskPop.global_position - global_position
+	$Origin.rotate(disk_pop_position.angle_to(throw_direction))
+	
+	if Input.is_action_just_released("ui_attack") and has_disk:
 		# Disk creation
 		myDisk = Disk.instance()
-		myDisk.global_position = global_position \
-			+ throw_direction.normalized()*35.0
+		# Throw disk
+		myDisk.throw($Origin/DiskPop.global_position, throw_direction)
+		# Addition to scene
 		get_parent().add_child(myDisk)
 		
-		# Disk throwing
-#		myDisk.throw(throw_direction)
-		print(throw_direction)
-		myDisk.apply_central_impulse(throw_direction.normalized() * myDisk.speed)
-		
-		# timer management
-		$DiskTimer.start()
-		$DiskTimer.connect("timeout", myDisk, "destroy")
-		available_throw = false
+		# Disk possession management
+		has_disk = false
+		myDisk.connect("destroyed", self, "_on_disk_destroyed")
 
 func start(pos):
 	position = pos
@@ -70,6 +68,7 @@ func _on_Character_body_entered(_body):
 	emit_signal("hit")
 	$CollisionShape2D.set_deferred("disabled", true)
 	
-func _on_DiskTimer_timeout():
-	available_throw = true
+func _on_disk_destroyed():
+	has_disk = true
+	myDisk = null
 	$AudioStreamPlayer.play()
