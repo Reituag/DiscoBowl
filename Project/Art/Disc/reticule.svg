@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="256"
+   height="256"
+   viewBox="0 0 67.733332 67.733335"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15, custom)"
+   sodipodi:docname="reticule.svg"
+   inkscape:export-filename="C:\Users\Gauth\Documents\Projets_Godot\DiscoBowl\Project\Art\Disc\reticule.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="3.3242188"
+     inkscape:cx="121.08108"
+     inkscape:cy="130.40658"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="true"
+     units="px"
+     inkscape:pagecheckerboard="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1051"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid833"
+       empspacing="8" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <circle
+       style="opacity:0.997;fill:#be65ff;fill-opacity:0.558583;stroke:none;stroke-width:3.175;stroke-linecap:round;stroke-linejoin:round"
+       id="path835"
+       cx="33.866665"
+       cy="33.866665"
+       r="4.2333317" />
+    <path
+       style="fill:#be65ff;fill-opacity:0.558583;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 30.691667,25.4 c 0.347978,2.087868 6.002022,2.087867 6.35,0 2.116666,-12.7 2.116666,-12.7 2.116666,-21.1666667 0,-4.233333333333336 -10.583333,-3.52777764 -10.583333,0 C 28.575,12.7 28.575,12.7 30.691667,25.4 Z"
+       id="path843"
+       sodipodi:nodetypes="sssss" />
+    <path
+       style="fill:#be65ff;fill-opacity:0.558583;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 42.333334,30.691667 c -2.087868,0.347978 -2.087867,6.002022 0,6.35 12.7,2.116666 12.7,2.116666 21.166666,2.116666 4.233334,0 3.527778,-10.583333 0,-10.583333 -8.466666,0 -8.466666,0 -21.166666,2.116667 z"
+       id="path856"
+       sodipodi:nodetypes="sssss" />
+    <path
+       style="fill:#be65ff;fill-opacity:0.558583;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 25.4,30.691667 c 2.087868,0.347978 2.087867,6.002022 0,6.35 C 12.7,39.158333 12.7,39.158333 4.233334,39.158333 0,39.158333 0.705556,28.575 4.233334,28.575 12.7,28.575 12.7,28.575 25.4,30.691667 Z"
+       id="path858"
+       sodipodi:nodetypes="sssss" />
+    <path
+       style="fill:#be65ff;fill-opacity:0.558583;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 30.691667,42.333333 c 0.347978,-2.087868 6.002022,-2.087867 6.35,0 2.116666,12.7 2.116666,12.7 2.116666,21.166666 0,4.233334 -10.583333,3.527778 -10.583333,0 0,-8.466666 0,-8.466666 2.116667,-21.166666 z"
+       id="path860"
+       sodipodi:nodetypes="sssss" />
+  </g>
+</svg>

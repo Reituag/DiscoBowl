@@ -3,7 +3,9 @@ extends KinematicBody2D
 const speed = 400  # How fast the character will move (pixels/sec).
 
 export (PackedScene) var Disk
+export (PackedScene) var Shield
 var myDisk   = null
+var myShield = null
 var has_disk = true
 
 signal hit
@@ -41,22 +43,29 @@ func _physics_process(delta):
 	# Throwing management #
 	#######################
 	
-	# Get throw direction
-	var throw_direction = get_viewport().get_mouse_position() - global_position
-	var disk_pop_position = $Origin/DiskPop.global_position - global_position
-	$Origin.rotate(disk_pop_position.angle_to(throw_direction))
+	# Get aiming direction
+	var aim_direction = get_viewport().get_mouse_position() - global_position
+	var disk_pop_position = $OriginDiskPop/DiskPop.global_position - global_position
+	$OriginDiskPop.rotate(disk_pop_position.angle_to(aim_direction))
 	
 	if Input.is_action_just_released("ui_attack") and has_disk:
 		# Disk creation
 		myDisk = Disk.instance()
 		# Throw disk
-		myDisk.throw($Origin/DiskPop.global_position, throw_direction)
+		myDisk.throw($OriginDiskPop/DiskPop.global_position, aim_direction)
 		# Addition to scene
 		get_parent().add_child(myDisk)
 		
 		# Disk possession management
 		has_disk = false
 		myDisk.connect("destroyed", self, "_on_disk_destroyed")
+		
+	elif Input.is_action_just_pressed("ui_shield"):# and has_disk:
+		myShield = Shield.instance()
+		$OriginDiskPop/DiskPop.add_child(myShield)
+		
+	elif Input.is_action_just_released("ui_shield"):# and has_disk:
+		myShield.queue_free()
 
 func start(pos):
 	position = pos

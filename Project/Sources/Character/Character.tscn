@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Art/Character/character_idle_1.png" type="Texture" id=1]
 [ext_resource path="res://Art/Character/character_idle_2.png" type="Texture" id=2]
@@ -8,7 +8,8 @@
 [ext_resource path="res://Art/Character/character_walk_1.png" type="Texture" id=6]
 [ext_resource path="res://Sources/Disk/Disk.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Art/Sound/night-vision-1.wav" type="AudioStream" id=8]
-[ext_resource path="res://Art/icon.png" type="Texture" id=9]
+[ext_resource path="res://Art/Disc/reticule.png" type="Texture" id=9]
+[ext_resource path="res://Sources/Shield/Shield.tscn" type="PackedScene" id=10]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -39,6 +40,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 Disk = ExtResource( 7 )
+Shield = ExtResource( 10 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 0.25, 0.25 )
@@ -55,15 +57,14 @@ one_shot = true
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
 
-[node name="Origin" type="Position2D" parent="."]
-rotation = -1.5708
+[node name="OriginDiskPop" type="Position2D" parent="."]
 
-[node name="DiskPop" type="Position2D" parent="Origin"]
+[node name="DiskPop" type="Position2D" parent="OriginDiskPop"]
 position = Vector2( 0, 50 )
 
-[node name="DebugPos" type="Sprite" parent="Origin/DiskPop"]
+[node name="Reticule" type="Sprite" parent="OriginDiskPop/DiskPop"]
 visible = false
-scale = Vector2( 0.2, 0.2 )
+scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 9 )
 
 [node name="CatchArea" type="Area2D" parent="."]
