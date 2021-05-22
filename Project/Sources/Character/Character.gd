@@ -16,6 +16,7 @@ signal hit
 func _ready():
 	hide()
 	$CatchArea.connect("body_entered", self, "_on_CatchArea_body_entered")
+	$CatchArea.scale = Vector2(0.1, 0.1)
 
 func start(pos):
 	position = pos
@@ -70,6 +71,7 @@ func _physics_process(delta):
 		# Disk possession management
 		has_disk = false
 		myDisk.connect("destroyed", self, "_on_disk_destroyed")
+		$CatchArea.scale = Vector2(1,1)
 		
 	elif Input.is_action_just_pressed("ui_shield"):# and has_disk:
 		myShield = Shield.instance()
@@ -94,3 +96,4 @@ func _on_CatchArea_body_entered(body):
 		# Dot product : if the disk is moving towards me, it is destroyed
 		if disk_to_me.dot(myDisk.velocity) < 0:
 			myDisk.destroy()
+			$CatchArea.scale = Vector2(0.1, 0.1)
