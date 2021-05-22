@@ -8,13 +8,18 @@ var myDisk   = null
 var myShield = null
 var has_disk = true
 
+var remaining_speed = Vector2.ZERO
+export var damping_factor = 0.9
+
 signal hit
 
 func _ready():
 	hide()
 	$CatchArea.connect("body_entered", self, "_on_CatchArea_body_entered")
-#	connect("body_entered",self, "_on_Character_body_entered")
-#	$DiskTimer.connect("timeout", self, "_on_DiskTimer_timeout")
+
+func start(pos):
+	position = pos
+	show()
 
 func _physics_process(delta):
 	#######################
@@ -37,6 +42,12 @@ func _physics_process(delta):
 	else:
 		$AnimatedSprite.play("idle")
 	
+	#Addition of velocity remaing from a hit
+	if not remaining_speed.is_equal_approx(Vector2.ZERO) :
+		velocity += remaining_speed*speed
+		remaining_speed = remaining_speed*damping_factor
+#		print(delta)
+		
 	move_and_slide(velocity)
 	
 	#######################
@@ -62,25 +73,21 @@ func _physics_process(delta):
 		
 	elif Input.is_action_just_pressed("ui_shield"):# and has_disk:
 		myShield = Shield.instance()
+		myShield.owner_character = self
 		$OriginDiskPop/DiskPop.add_child(myShield)
 		
 	elif Input.is_action_just_released("ui_shield"):# and has_disk:
 		myShield.queue_free()
 
-func start(pos):
-	position = pos
-	show()
-	$CollisionShape2D.disabled = false
+func hit(remainder):
+	print("OUCH")
 
-#func _on_Character_body_entered(_body):
-#	emit_signal("hit")
-#	$CollisionShape2D.set_deferred("disabled", true)
-	
 func _on_disk_destroyed():
 	has_disk = true
 	myDisk = null
 	$AudioStreamPlayer.play()
 
+# Handle disk catching
 func _on_CatchArea_body_entered(body):
 	if body == myDisk:
 		var disk_to_me = myDisk.global_position - global_position
