@@ -6,6 +6,6 @@ var owner_character = null
 func _ready():
 	pass # Replace with function body.
 
-func hit(remainder : Vector2):
+func hit(_hitting_body, remainder : Vector2, _damages):
 #	print("BLOCKED / remainder : {0}".format([remainder]))
 	owner_character.remaining_speed = remainder.normalized()

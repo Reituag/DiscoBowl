@@ -11,18 +11,24 @@ var has_disk = true
 var remaining_speed = Vector2.ZERO
 export var damping_factor = 0.9
 
-signal hit
+export var start_life = 100
+var current_life
+
+signal die
 
 func _ready():
 	hide()
 	$CatchArea.connect("body_entered", self, "_on_CatchArea_body_entered")
 	$CatchArea.scale = Vector2(0.1, 0.1)
+	current_life = start_life
+	$LifeBar.max_value = start_life
+	$LifeBar.value = current_life
 
 func start(pos):
 	position = pos
 	show()
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	#######################
 	# Movement management #
 	#######################
@@ -81,8 +87,22 @@ func _physics_process(delta):
 	elif Input.is_action_just_released("ui_shield"):# and has_disk:
 		myShield.queue_free()
 
-func hit(remainder):
-	print("OUCH")
+func hit(hitting_body, _remainder, damage_amount):
+	if hitting_body == myDisk:
+		catch_disk(hitting_body)
+	else:
+		receive_damage(damage_amount)
+
+func receive_damage(damage_amount):
+	if current_life - damage_amount <= 0:
+		emit_signal("die")
+	else:
+		current_life -= damage_amount
+		$LifeBar.value = current_life
+		
+func catch_disk(_disk):
+	myDisk.destroy()
+	$CatchArea.scale = Vector2(0.1, 0.1)
 
 func _on_disk_destroyed():
 	has_disk = true
@@ -95,5 +115,4 @@ func _on_CatchArea_body_entered(body):
 		var disk_to_me = myDisk.global_position - global_position
 		# Dot product : if the disk is moving towards me, it is destroyed
 		if disk_to_me.dot(myDisk.velocity) < 0:
-			myDisk.destroy()
-			$CatchArea.scale = Vector2(0.1, 0.1)
+			catch_disk(body)

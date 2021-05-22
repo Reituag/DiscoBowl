@@ -5,6 +5,8 @@ class_name Disk
 export var speed = 1200
 # Maximal number of bounces before being destroyed
 export var max_bounces = 4 
+# Default amount of damage for the disk
+export var dmg_amount = 35
 
 signal destroyed
 
@@ -37,10 +39,11 @@ func _physics_process(delta):
 		elif current_bounces <= max_bounces:
 			velocity = velocity.bounce(collision.normal)
 			if collision.collider.has_method("hit"):
-				collision.collider.hit(collision.remainder)
+				collision.collider.hit(self, collision.remainder, dmg_amount)
 		else:
 			destroy()
 
 func destroy():
+	velocity = Vector2.ZERO
 	emit_signal("destroyed")
 	queue_free()
