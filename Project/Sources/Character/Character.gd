@@ -14,6 +14,9 @@ export var damping_factor = 0.9
 export var start_life = 100
 var current_life
 
+# Movement controller dedicated to this character's movement
+var myController = preload("res://Sources/Character/JoypadCharacterController.tscn")
+
 signal die
 
 func _ready():
@@ -23,6 +26,11 @@ func _ready():
 	current_life = start_life
 	$LifeBar.max_value = start_life
 	$LifeBar.value = current_life
+	# Temporary controller configuration. This should be handled by a higher 
+	# level instance as world or main
+	myController = myController.instance()
+	myController.config(0)
+	add_child(myController)
 
 func start(pos):
 	position = pos
@@ -32,29 +40,20 @@ func _physics_process(_delta):
 	#######################
 	# Movement management #
 	#######################
-	var velocity = Vector2()
-	if Input.is_action_pressed("ui_right"):
-		velocity.x += 1
-	if Input.is_action_pressed("ui_left"):
-		velocity.x -= 1
-	if Input.is_action_pressed("ui_down"):
-		velocity.y += 1
-	if Input.is_action_pressed("ui_up"):
-		velocity.y -= 1
+	var velocity = myController.get_input()
 	
 	if velocity.length() > 0:
-		velocity = velocity.normalized() * speed
+		velocity = velocity * speed
 		$AnimatedSprite.play("walk")
 		$AnimatedSprite.flip_h = velocity.x < 0
 	else:
 		$AnimatedSprite.play("idle")
 	
-	#Addition of velocity remaing from a hit
+	# Addition of velocity remaing from a hit
 	if not remaining_speed.is_equal_approx(Vector2.ZERO) :
 		velocity += remaining_speed*speed
 		remaining_speed = remaining_speed*damping_factor
-#		print(delta)
-		
+	
 	move_and_slide(velocity)
 	
 	#######################

@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html itemscope="" itemtype="https://schema.org/QAPage" lang="en"><!-- Powered by Question2Answer - http://www.question2answer.org/ --><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to make a local multiplayer game - Godot Engine - Q&amp;A</title>
+<meta name="description" content="Hi there! I'm clueless of how to implement a local multiplayer logic into my game. It's a  ...  Thanks guys :D any help is very much appreciated!">
+<meta name="keywords" content="Engine,multiplayer,godot3-1,local,controller,instances">
+<link rel="stylesheet" type="text/css" href="How%20to%20make%20a%20local%20multiplayer%20game%20-%20Godot%20Engine%20-%20Q&amp;A_fichiers/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="How%20to%20make%20a%20local%20multiplayer%20game%20-%20Godot%20Engine%20-%20Q&amp;A_fichiers/font-awesome.css">
+<link rel="stylesheet" type="text/css" href="How%20to%20make%20a%20local%20multiplayer%20game%20-%20Godot%20Engine%20-%20Q&amp;A_fichiers/dark.css">
+<link rel="stylesheet" type="text/css" href="How%20to%20make%20a%20local%20multiplayer%20game%20-%20Godot%20Engine%20-%20Q&amp;A_fichiers/open-sans.css">
+<link rel="stylesheet" href="How%20to%20make%20a%20local%20multiplayer%20game%20-%20Godot%20Engine%20-%20Q&amp;A_fichiers/donut.css">
+<style type="text/css"><!--
+//--></style>
+
+					<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+					   <!--[if lt IE 9]>
+					     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+					     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+					<![endif]-->
+				
+<link rel="canonical" href="https://godotengine.org/qa/44307/how-to-make-a-local-multiplayer-game">
+<link rel="search" type="application/opensearchdescription+xml" title="" href="https://godotengine.org/qa/opensearch.xml" data-original-title="Godot Engine - Q&amp;A">
+<meta itemprop="name" content="How to make a local multiplayer game">
+<script>
+var qa_root = '..\/';
+var qa_request = '44307\/how-to-make-a-local-multiplayer-game';
+</script>
+<script src="How%20to%20make%20a%20local%20multiplayer%20game%20-%20Godot%20Engine%20-%20Q&amp;A_fichiers/jquery-3.js"></script>
+<script src="How%20to%20make%20a%20local%20multiplayer%20game%20-%20Godot%20Engine%20-%20Q&amp;A_fichiers/qa-global.js"></script>
+<script src="How%20to%20make%20a%20local%20multiplayer%20game%20-%20Godot%20Engine%20-%20Q&amp;A_fichiers/bootstrap.js" type="text/javascript"></script>
+<script src="How%20to%20make%20a%20local%20multiplayer%20game%20-%20Godot%20Engine%20-%20Q&amp;A_fichiers/donut.js" type="text/javascript"></script>
+<script>
+function dhp_ask_user_confirmation(event){
+if(!confirm("Are you sure ?")) {
+event.preventDefault();
+return false ;
+}
+else {
+return true ;
+}
+}
+</script>
+<style>
+.wmd-button > span { background-image: url('../qa-plugin/q2a-markdown-editor/pagedown/wmd-buttons.png') }
+
+/* Markdown editor styles */
+
+.wmd-button-bar {
+	width: 100%;
+	padding: 5px 0;
+}
+.wmd-input {
+	/* 604 */
+	width: 598px;
+	height: 250px;
+	margin: 0 0 10px;
+	padding: 2px;
+	border: 1px solid #ccc;
+}
+.wmd-preview {
+	/* 604 */
+	width: 584px;
+	margin: 10px 0;
+	padding: 8px;
+	border: 2px dashed #ccc;
+}
+
+.qa-q-view-content pre,
+.qa-a-item-content pre,
+.wmd-preview pre {
+	overflow: auto;
+	width: 100%;
+	max-height: 400px;
+	padding: 0;
+	border-width: 1px 1px 1px 3px;
+	border-style: solid;
+	border-color: #ddd;
+	background-color: #eee;
+}
+pre code {
+	display: block;
+	padding: 8px;
+}
+
+.wmd-button-row {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	height: 20px;
+}
+
+.wmd-spacer {
+	width: 1px;
+	height: 20px;
+	margin-left: 14px;
+	position: absolute;
+	background-color: Silver;
+	display: inline-block;
+	list-style: none;
+}
+
+.wmd-button {
+	width: 20px;
+	height: 20px;
+	padding-left: 2px;
+	padding-right: 3px;
+	position: absolute;
+	display: inline-block;
+	list-style: none;
+	cursor: pointer;
+}
+
+.wmd-button > span {
+	/* note: background-image is set in plugin script */
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+}
+
+.wmd-spacer1 {
+	left: 50px;
+}
+.wmd-spacer2 {
+	left: 175px;
+}
+.wmd-spacer3 {
+	left: 300px;
+}
+
+.wmd-prompt-background {
+	background-color: #000;
+}
+.wmd-prompt-dialog {
+	border: 1px solid #999;
+	background-color: #f5f5f5;
+}
+.wmd-prompt-dialog > div {
+	font-size: 0.8em;
+}
+.wmd-prompt-dialog > form > input[type="text"] {
+	border: 1px solid #999;
+	color: black;
+}
+.wmd-prompt-dialog > form > input[type="button"] {
+	border: 1px solid #888;
+	font-size: 11px;
+	font-weight: bold;
+}
+
+</style>
+
+
+</head>
+<body class="qa-template-question qa-category-8 qa-body-js-on">
+<script>
+var b = document.getElementsByTagName('body')[0];
+b.className = b.className.replace('qa-body-js-off', 'qa-body-js-on');
+</script>
+            <header id="nav-header">
+                <nav id="nav" class="navbar navbar-static-top" role="navigation">
+                    <div class="container">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="glyphicon glyphicon-menu-hamburger"></span>
+                            </button>
+                        </div>
+                        <div class="col-sm-3 col-xs-8 logo-wrapper">
+                            <div class="qa-logo">
+<a href="https://godotengine.org/qa/" class="qa-logo-link">Godot Engine - Q&amp;A</a>
+</div>
+                        </div>
+                        <div class="donut-navigation col-sm-2 col-xs-3 pull-right">
+                            <ul class="nav navbar-nav navbar-right login-nav">
+    <li class="dropdown login-dropdown login active">
+        <a href="#" data-toggle="dropdown" class="navbar-login-button">
+            <span class="fa fa-sign-in text-muted"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu" id="login-dropdown-menu">
+            <li class="open-login-buttons">
+</li>
+                                        <form role="form" action="../login?to=44307%2Fhow-to-make-a-local-multiplayer-game" method="post">
+                    <li>
+                        <label>
+                            Email or Username                        </label>
+                        <input type="text" class="form-control" id="qa-userid" name="emailhandle" placeholder="Email or Username">
+                    </li>
+
+                    <li>
+                        <label>
+                            Password                        </label>
+                        <input type="password" class="form-control" id="qa-password" name="password" placeholder="Password">
+                    </li>
+                    <li>
+                        <label class="checkbox inline">
+                            <input type="checkbox" name="remember" id="qa-rememberme" value="1"> Remember                        </label>
+                    </li>
+                    <li class="hidden">
+                        <input type="hidden" name="code" value="0-1621921124-ac11727e556ae8ae078bb96c8d365321f6b7e9c5">
+                    </li>
+                    <li>
+                        <button type="submit" value="" id="qa-login" name="dologin" class="btn btn-primary btn-block">
+                            Login                        </button>
+                    </li>
+                    <li class="forgot-password">
+                        <a href="https://godotengine.org/qa/register?to=44307%2Fhow-to-make-a-local-multiplayer-game">Register</a>
+                        |
+                        <a href="https://godotengine.org/qa/forgot">I forgot my password</a>
+                    </li>
+                </form>
+            
+                    </ul>
+    </li>
+</ul>
+
+                        </div>
+                        <div class="col-sm-7 navbar-collapse collapse main-nav navbar-left">
+                            <ul class="nav navbar-nav inner-drop-nav">
+                                <li><a href="https://godotengine.org/qa/questions">Questions</a></li>
+<li><a href="https://godotengine.org/qa/unanswered">Unanswered</a></li>
+<li><a href="https://godotengine.org/qa/tags">Tags</a></li>
+<li><a href="https://godotengine.org/qa/ask?cat=8">Ask a Question</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+            
+<div class="container">
+<div class="top-divider"></div>
+</div>
+<div class="container visible-xs">
+<div class="top-search-bar">
+<form class="search-form" role="form" method="get" action="../search">
+<div class="input-group">
+<input type="text" name="q" class="qa-search-field form-control" placeholder="Search">
+<span class="input-group-btn">
+<button type="submit" value="" class="btn qa-search-button"><span class="fa fa-search"></span></button>
+</span>
+</div>
+</form>
+</div>
+</div>
+<div class="qa-body-wrapper" itemprop="mainEntity" itemscope="" itemtype="https://schema.org/Question">
+<main class="donut-masthead">
+<div class="container">
+</div>
+<div class="container">
+<div class="page-title">
+<h1>
+<a href="https://godotengine.org/qa/44307/how-to-make-a-local-multiplayer-game">
+<span itemprop="name">How to make a local multiplayer game</span>
+</a>
+</h1>
+</div>
+</div>
+</main>
+<div class="container">
+<div class="qa-header clearfix">
+<div class="qa-header-clear clearfix">
+</div>
+</div> <!-- END qa-header -->
+<div class="qa-main-shadow clearfix">
+<div class="qa-main-wrapper clearfix row">
+<div class="qa-main col-md-9 col-xs-12 pull-left">
+<div class="qa-part-q-view">
+<div class="qa-q-view" id="q44307">
+<form method="post" action="../44307/how-to-make-a-local-multiplayer-game">
+<div class="qa-q-view-stats">
+<div class="qa-voting qa-voting-net" id="voting_44307">
+<div class="qa-vote-buttons qa-vote-buttons-net">
+<button title="Click to vote up" name="vote_44307_1_q44307" onclick="return qa_vote_click(this);" type="submit" value="+" class="qa-vote-first-button qa-vote-up-button"> <span class="fa fa-chevron-up"></span> </button>
+<button title="Click to vote down" name="vote_44307_-1_q44307" onclick="return qa_vote_click(this);" type="submit" value="–" class="qa-vote-second-button qa-vote-down-button"> <span class="fa fa-chevron-down"></span> </button>
+</div>
+<div class="qa-vote-count qa-vote-count-net">
+<span class="qa-netvote-count">
+<span class="qa-netvote-count-data">+3</span><span class="qa-netvote-count-pad"> votes <meta itemprop="upvoteCount" content="3"></span>
+</span>
+</div>
+<div class="qa-vote-clear clearfix">
+</div>
+</div>
+</div>
+<input name="code" type="hidden" value="0-1621921124-bc3df130e0cb21480d813da7e6edb35c3d6afcc7">
+</form>
+<div class="qa-q-view-main">
+<form method="post" action="../44307/how-to-make-a-local-multiplayer-game">
+<div class="qa-q-view-content qa-post-content">
+<a name="44307"></a><div itemprop="text"><p>Hi there!</p>
+
+<p>I'm clueless of how to implement a local multiplayer logic into my 
+game. It's a simple top-down shooter (nothing special really, since I'm 
+pretty much just starting with Godot and game dev. in general) and I 
+want to instance n-player_classes controlled separately by each 
+controller/player</p>
+
+<p>The problem is that I have a player class (controlled via the input 
+manager) that should be instanced as soon as someone is connecting his 
+controller or press a button -&gt; how can I tag/assign this particular 
+instance to the connected controller? Furthermore is it possible to 
+extend the player count dynamically with each new controller connected? 
+Unfortunately I couldn't find anything anywhere about local (not online)
+ multiplayer implementation. </p>
+
+<p>It would be awesome if someone/you could explain the general approach
+ towards this problem. It's more important to understand the solution 
+instead of copy/paste code.</p>
+
+<p>Thanks guys :D any help is very much appreciated!</p>
+</div>
+</div>
+<div class="qa-q-view-tags clearfix">
+<ul class="qa-q-view-tag-list">
+<li class="qa-q-view-tag-item"><a href="https://godotengine.org/qa/tag/multiplayer" rel="tag" class="qa-tag-link">multiplayer</a></li>
+<li class="qa-q-view-tag-item"><a href="https://godotengine.org/qa/tag/godot3-1" rel="tag" class="qa-tag-link">godot3-1</a></li>
+<li class="qa-q-view-tag-item"><a href="https://godotengine.org/qa/tag/local" rel="tag" class="qa-tag-link">local</a></li>
+<li class="qa-q-view-tag-item"><a href="https://godotengine.org/qa/tag/controller" rel="tag" class="qa-tag-link">controller</a></li>
+<li class="qa-q-view-tag-item"><a href="https://godotengine.org/qa/tag/instances" rel="tag" class="qa-tag-link">instances</a></li>
+</ul>
+</div>
+<span class="qa-q-view-avatar-meta">
+<span class="qa-q-view-meta">
+<a href="https://godotengine.org/qa/44307/how-to-make-a-local-multiplayer-game" class="qa-q-view-what" itemprop="url">asked</a>
+<span class="qa-q-view-when">
+<span class="qa-q-view-when-data"><time itemprop="dateCreated" datetime="2019-04-28T14:00:42+0000" title="" data-original-title="2019-04-28T14:00:42+0000">Apr 28, 2019</time></span>
+</span>
+<span class="qa-q-view-where">
+<span class="qa-q-view-where-pad">in </span><span class="qa-q-view-where-data"><a href="https://godotengine.org/qa/engine" class="qa-category-link">Engine</a></span>
+</span>
+<span class="qa-q-view-who">
+<span class="qa-q-view-who-pad">by </span>
+<span class="qa-q-view-who-data"><span itemprop="author" itemscope="" itemtype="https://schema.org/Person"><a href="https://godotengine.org/qa/user/K1NGM4RV" class="qa-user-link" itemprop="url"><span itemprop="name">K1NGM4RV</span></a></span></span>
+<span class="qa-q-view-who-points">
+<span class="qa-q-view-who-points-pad">(</span><span class="qa-q-view-who-points-data">23</span><span class="qa-q-view-who-points-pad"> points)</span>
+</span>
+</span>
+</span>
+</span>
+<div class="qa-q-view-buttons">
+<button name="q_doanswer" id="q_doanswer" onclick="return qa_toggle_element('anew')" title="" type="submit" class="qa-form-light-button qa-form-light-button-answer" data-original-title="Answer this question">answer</button>
+<button name="q_docomment" onclick="return qa_toggle_element('c44307')" title="" type="submit" class="qa-form-light-button qa-form-light-button-comment" data-original-title="Add a comment on this question">comment</button>
+</div>
+<input name="code" type="hidden" value="0-1621921124-3b1d1511ef0706e7ffea1e9062f40c5c84a58442">
+<input name="qa_click" type="hidden" value="">
+</form>
+<div class="qa-q-view-c-list" id="c44307_list">
+<div class="qa-c-list-item " id="c44323" itemscope="" itemtype="https://schema.org/Comment">
+<form method="post" action="../44307/how-to-make-a-local-multiplayer-game">
+<div class="qa-c-item-content qa-post-content">
+<a name="44323"></a><div itemprop="text"><p>You've looked at the <a rel="nofollow" href="https://godot.readthedocs.io/en/3.1/tutorials/networking/high_level_multiplayer.html">documentation on higher level multiplayer</a>, right? The implementation can work for local player, as well as online, games.</p>
+</div>
+</div>
+<div class="qa-c-item-footer">
+<span class="qa-c-item-avatar-meta">
+<span class="qa-c-item-meta">
+<a href="https://godotengine.org/qa/44307/how-to-make-a-local-multiplayer-game?show=44323#c44323" class="qa-c-item-what" itemprop="url">commented</a>
+<span class="qa-c-item-when">
+<span class="qa-c-item-when-data"><time itemprop="dateCreated" datetime="2019-04-28T23:05:21+0000" title="" data-original-title="2019-04-28T23:05:21+0000">Apr 28, 2019</time></span>
+</span>
+<span class="qa-c-item-who">
+<span class="qa-c-item-who-pad">by </span>
+<span class="qa-c-item-who-data"><span itemprop="author" itemscope="" itemtype="https://schema.org/Person"><a href="https://godotengine.org/qa/user/Ertain" class="qa-user-link" itemprop="url"><span itemprop="name">Ertain</span></a></span></span>
+<span class="qa-c-item-who-points">
+<span class="qa-c-item-who-points-pad">(</span><span class="qa-c-item-who-points-data">1,971</span><span class="qa-c-item-who-points-pad"> points)</span>
+</span>
+</span>
+</span>
+</span>
+<div class="qa-c-item-buttons">
+<button name="q_docomment" onclick="return qa_toggle_element('c44307')" title="" type="submit" class="qa-form-light-button qa-form-light-button-comment" data-original-title="Reply to this comment">reply</button>
+</div>
+</div>
+<input name="code" type="hidden" value="0-1621921124-3b1d1511ef0706e7ffea1e9062f40c5c84a58442">
+<input name="qa_click" type="hidden" value="">
+</form>
+<div class="qa-c-item-clear clearfix">
+</div>
+</div> <!-- END qa-c-item -->
+<div class="qa-c-list-item " id="c91198" itemscope="" itemtype="https://schema.org/Comment">
+<form method="post" action="../44307/how-to-make-a-local-multiplayer-game">
+<div class="qa-c-item-content qa-post-content">
+<a name="91198"></a><div itemprop="text"><p>I do not think the OP is 
+talking about LAN multiplayer. I think the OP means the scenario where 
+one computer has several controllers connected. The <a rel="nofollow" href="https://docs.godotengine.org/en/stable/tutorials/networking/high_level_multiplayer.html">documentation on high-level multiplayer</a> does not cover implementation for this <strong>local player</strong> scenario.</p>
+</div>
+</div>
+<div class="qa-c-item-footer">
+<span class="qa-c-item-avatar-meta">
+<span class="qa-c-item-meta">
+<a href="https://godotengine.org/qa/44307/how-to-make-a-local-multiplayer-game?show=91198#c91198" class="qa-c-item-what" itemprop="url">commented</a>
+<span class="qa-c-item-when">
+<span class="qa-c-item-when-data"><time itemprop="dateCreated" datetime="2020-12-31T23:26:47+0000" title="" data-original-title="2020-12-31T23:26:47+0000">Dec 31, 2020</time></span>
+</span>
+<span class="qa-c-item-who">
+<span class="qa-c-item-who-pad">by </span>
+<span class="qa-c-item-who-data"><span itemprop="author" itemscope="" itemtype="https://schema.org/Person"><a href="https://godotengine.org/qa/user/sustainablelab" class="qa-user-link" itemprop="url"><span itemprop="name">sustainablelab</span></a></span></span>
+<span class="qa-c-item-who-points">
+<span class="qa-c-item-who-points-pad">(</span><span class="qa-c-item-who-points-data">32</span><span class="qa-c-item-who-points-pad"> points)</span>
+</span>
+</span>
+</span>
+</span>
+<div class="qa-c-item-buttons">
+<button name="q_docomment" onclick="return qa_toggle_element('c44307')" title="" type="submit" class="qa-form-light-button qa-form-light-button-comment" data-original-title="Reply to this comment">reply</button>
+</div>
+</div>
+<input name="code" type="hidden" value="0-1621921124-3b1d1511ef0706e7ffea1e9062f40c5c84a58442">
+<input name="qa_click" type="hidden" value="">
+</form>
+<div class="qa-c-item-clear clearfix">
+</div>
+</div> <!-- END qa-c-item -->
+</div> <!-- END qa-c-list -->
+<div class="qa-c-form" id="c44307" style="display:none;">
+<h2>Please <a href="https://godotengine.org/qa/login?to=44307%2Fhow-to-make-a-local-multiplayer-game">log in</a> or <a href="https://godotengine.org/qa/register?to=44307%2Fhow-to-make-a-local-multiplayer-game">register</a> to add a comment.</h2>
+</div> <!-- END qa-c-form -->
+</div> <!-- END qa-q-view-main -->
+<div class="qa-q-view-clear clearfix">
+</div>
+</div> <!-- END qa-q-view -->
+</div>
+<div class="qa-part-a-form">
+<div class="qa-a-form" id="anew" style="display:none;">
+<h2>Please <a href="https://godotengine.org/qa/login?to=44307%2Fhow-to-make-a-local-multiplayer-game">log in</a> or <a href="https://godotengine.org/qa/register?to=44307%2Fhow-to-make-a-local-multiplayer-game">register</a> to answer this question.</h2>
+</div> <!-- END qa-a-form -->
+</div>
+<div class="qa-part-a-list">
+<h2 id="a_list_title"><span itemprop="answerCount">1</span> Answer</h2>
+<div class="qa-a-list" id="a_list">
+<div class="qa-a-list-item " id="a91197" itemprop="suggestedAnswer" itemscope="" itemtype="https://schema.org/Answer">
+<form method="post" action="../44307/how-to-make-a-local-multiplayer-game">
+<div class="qa-voting qa-voting-net" id="voting_91197">
+<div class="qa-vote-buttons qa-vote-buttons-net">
+<button title="Click to vote up" name="vote_91197_1_a91197" onclick="return qa_vote_click(this);" type="submit" value="+" class="qa-vote-first-button qa-vote-up-button"> <span class="fa fa-chevron-up"></span> </button>
+<button title="Click to vote down" name="vote_91197_-1_a91197" onclick="return qa_vote_click(this);" type="submit" value="–" class="qa-vote-second-button qa-vote-down-button"> <span class="fa fa-chevron-down"></span> </button>
+</div>
+<div class="qa-vote-count qa-vote-count-net">
+<span class="qa-netvote-count">
+<span class="qa-netvote-count-data">+3</span><span class="qa-netvote-count-pad"> votes <meta itemprop="upvoteCount" content="3"></span>
+</span>
+</div>
+<div class="qa-vote-clear clearfix">
+</div>
+</div>
+<input name="code" type="hidden" value="0-1621921124-bc3df130e0cb21480d813da7e6edb35c3d6afcc7">
+</form>
+<div class="qa-a-item-main">
+<form method="post" action="../44307/how-to-make-a-local-multiplayer-game">
+<div class="qa-a-selection">
+</div>
+<div class="qa-a-item-content qa-post-content">
+<a name="91197"></a><div itemprop="text"><p>I came across your post while trying to solve the same problem:</p>
+
+<ul>
+<li>allow controllers to connect/disconnect <strong>mid-game</strong></li>
+<li>extend to <em>N</em> controllers <strong>without</strong> manually editing the <code>InputMap</code> or manually scripting each player's controller</li>
+</ul>
+
+<p>From your description, I'm imagining a top-down maze with players 
+running around. This imaginary top-down maze game has a scene hierarchy 
+that looks like this:</p>
+
+<pre><code>Main
+└─ World
+   ├─ MazeWalls
+   ├─ Player1
+    ...
+   └─ PlayerN
+</code></pre>
+
+<p>Here is the general idea:</p>
+
+<ul>
+<li>script controller detection in <code>Main.gd</code></li>
+<li>script player creation and controller input mapping in <code>World.gd</code></li>
+</ul>
+
+<p>Relationship between <code>Main</code> and <code>World</code>:</p>
+
+<ul>
+<li><p><code>Main.gd</code> creates <code>world</code>, an instance of the <code>World</code> scene</p>
+
+<ul>
+<li><code>World</code> has property <code>num_players</code> (the number of players)</li>
+<li><code>Main</code> finds out how many controllers are connected and writes to <code>world.num_players</code></li>
+<li><p><code>World</code> has methods:</p>
+
+<ul>
+<li><code>add_player(player_index)</code></li>
+<li><code>remove_player(player_index)</code></li>
+</ul></li>
+<li><p><code>Main</code> calls <code>world.add_player(device)</code> when <code>Main</code> detects a <strong>controller connected</strong></p></li>
+</ul></li>
+<li><p><code>Main</code> calls  <code>world.remove_player(device)</code> when <code>Main</code> detects a <strong>controller disconnected</strong></p>
+
+<ul>
+<li><p><code>Main</code> detects controllers connecting/disconnecting using Godot's built-in <code>Input</code> Singleton</p>
+
+<ul>
+<li><code>Input</code> has <code>signal</code> <code>Input.joy_connection_changed</code></li>
+</ul></li>
+<li><p>In <code>Main.gd</code>, connect this signal to <code>func _on_joy_connection_changed(device, connected)</code></p></li>
+<li>The signal sends an <code>int</code> <strong>device</strong> number and a <code>bool</code> <strong>connected</strong> that is <strong>true</strong> if connected, <strong>false</strong> if disconnected</li>
+</ul></li>
+</ul>
+
+<p><code>func _on_joy_connection_changed</code> uses <code>device</code> and <code>connected</code> to figure out which controller was connected/disconnected, and accordingly tell <code>world</code> whether to <strong>add</strong> or <strong>remove</strong> a player.</p>
+
+<p><code>Main</code> only knows about controllers and their device numbers. It doesn't care about the players. So when <code>Main</code> detects a controller, it tells <code>World</code> the controller's device number.</p>
+
+<p><code>World</code> only knows about players. It doesn't care about controllers.</p>
+
+<p>To work with up to N players, <code>World</code> managers the players in an <code>Array</code> called <code>players</code>. When <code>World</code> adds or removes players, it needs to know the <code>player_index</code>. This is the index into the array <code>players</code>.</p>
+
+<p><em><code>player_index</code> and controller <code>device</code> number are the same number!</em> Arrays start at index 0 and devices are enumerated starting at 0, so <code>device</code> works as the <code>player_index</code>.</p>
+
+<p>Now for the meaty part -- <strong>map inputs for up to N players</strong>:</p>
+
+<p><code>World.gd</code> defines <code>func add_player(player_index)</code>:</p>
+
+<ul>
+<li>instantiate a player (a player <em>scene</em>: <code>Player.tscn</code>)</li>
+<li>append that player instance to the array of <code>players</code></li>
+<li>add the player as a <em>Child Node</em> of the <code>World</code> node</li>
+<li><p><em>assign values</em> to the player's properties:</p>
+
+<ul>
+<li>a <strong>position</strong> in the maze</li>
+<li>an <strong>appearance</strong> (e.g., picking a color)</li>
+<li>an <strong>input map</strong></li>
+</ul></li>
+<li><p>assigning player <strong>position</strong> and <strong>appearance</strong> might sound <em>unrelated</em> to the controller question, but to satisfy the <em>works up to N players</em> requirement, <strong>everything needs to be automated</strong></p></li>
+<li>so <code>func add_player</code> needs to handle <em>all assignments</em> in a <strong>scalable</strong> way, not just <strong>input map</strong> assignment</li>
+<li><p>two approaches that are both scalable:</p>
+
+<ul>
+<li>generate random values</li>
+<li>create a <code>Dictionary</code> where player is number is the dictionary key and the value (e.g. the player's color) is the dictionary value</li>
+</ul></li>
+</ul>
+
+<p>Use a <code>Dictionary</code> for the <strong>input map</strong>.</p>
+
+<p><strong>Actions</strong> are the keys in the <strong>input map</strong> dictionary. These key string mimic Godot's default <code>InputMap</code> action strings. This example shows a typical mapping using the default strings for right/left/up/down motions:</p>
+
+<pre><code>var input_map = {
+    "ui_right": Vector2.RIGHT,
+    "ui_left": Vector2.LEFT,
+    "ui_up": Vector2.UP,
+    "ui_down": Vector2.DOWN,
+}
+</code></pre>
+
+<p>To make the above code scalable, use <code>String.format()</code> to suffix the keys with the controller device number:</p>
+
+<pre><code>var input_map = {
+    "ui_right{n}".format({"n":player_index}): Vector2.RIGHT,
+    "ui_left{n}".format({"n":player_index}): Vector2.LEFT,
+    "ui_up{n}".format({"n":player_index}): Vector2.UP,
+    "ui_down{n}".format({"n":player_index}): Vector2.DOWN,
+}
+</code></pre>
+
+<p>Automate assigning the input map to the player. Make an <code>Array</code> of input maps. When a new player is added, append this input map. As defined in the <code>String</code> formatting above, the <code>player_index</code> (the <code>device</code> number) is substituted for <code>n</code>.</p>
+
+<p>So to summarize so far, as players are added, <code>add_player</code> creates these <code>input_map</code> dictionaries and adds to them to the array of <code>input_maps</code>.</p>
+
+<p>Now to edit the actual <code>InputMap</code> that connects the <code>InputEventJoypadMotion</code> <strong>action events</strong> with the <strong>actions</strong> defined in the array of <code>input_maps</code>.</p>
+
+<p>Full code is in my repository <a rel="nofollow" href="https://github.com/sustainablelab/eat-and-poop">https://github.com/sustainablelab/eat-and-poop</a> in script <code>World.gd</code>. Here is an example for joypad <strong>right</strong>.</p>
+
+<pre><code>func add_player(player_index: int) -&gt; void:
+
+    ...
+
+    var right_action: String
+    var right_action_event: InputEventJoypadMotion
+
+    right_action = "ui_right{n}".format({"n":player_index})
+    InputMap.add_action(right_action)
+
+    # Creat a new InputEvent instance to assign to the InputMap.
+    right_action_event = InputEventJoypadMotion.new()
+
+    right_action_event.device = player_index
+    right_action_event.axis = JOY_AXIS_0 # &lt;---- horizontal axis
+    right_action_event.axis_value =  1.0 # &lt;---- right
+    InputMap.action_add_event(right_action, right_action_event)
+</code></pre>
+
+<p>When the controller <strong>disconnects</strong> the player <strong>automatically stops moving</strong>
+ (obviously the player must stop moving because there are no more joypad
+ motion action events incoming for that player!). And when the 
+controller <strong>reconnects</strong>, the player <strong>starts moving again</strong>!</p>
+
+<p>This behavior <strong>comes for free</strong> with this solution because everything <code>World</code> needs to know about the player (like which controller is mapped to this player) is still in the <code>player</code> instance in the array <code>players</code>.</p>
+
+<p>When the controller <strong>reconnects</strong>, it is assigned the <em>lowest</em> available <code>device</code> number. So the <code>device</code> number still <strong>matches</strong> the correct <code>player_index</code> into the array of <code>players</code>.</p>
+
+<p>To provide visual feedback when a controller is 
+disconnected/reconnected, I have a "dead" appearance and a "live" 
+appearance. When a controller disconnects, I set the player <code>alpha</code> to 0.3, making it appear faded out. When the controller reconnects, I restore <code>alpha</code> to 1.0.</p>
+
+<h3>Hardware tests</h3>
+
+<ul>
+<li><p><em>Setup</em>:</p>
+
+<ul>
+<li>two wired XBox 360 controllers</li>
+<li>two (wireless) Steam controllers</li>
+<li>Windows 10</li>
+</ul></li>
+<li><p><em>Tests</em>:</p>
+
+<ul>
+<li>Expect connecting/disconnecting/reconnecting controller <em>mid-game</em> <strong>always works</strong></li>
+<li><em>connect/disconnect/reconnect</em> by plugging/unplugging/plugging the controller</li>
+</ul></li>
+<li><p><em>Test results:</em></p>
+
+<ul>
+<li>Launch from the Godot editor (<code>F5</code>): <strong>PASS</strong></li>
+<li>Launch from exported <code>.exe</code>: <strong>PASS</strong></li>
+<li>Launch from Steam as <em>non-Steam game</em> added to <em>Steam library</em>: <strong>FAIL</strong><br>
+<br>
+<ul>
+<li><em>Cause of failure:</em> Godot built-in <code>Input.joy_connection_changed</code> signal is not always emitted when a controller is connected/disconnected</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<span class="qa-a-item-avatar-meta">
+<span class="qa-a-item-meta">
+<a href="https://godotengine.org/qa/44307/how-to-make-a-local-multiplayer-game?show=91197#a91197" class="qa-a-item-what" itemprop="url">answered</a>
+<span class="qa-a-item-when">
+<span class="qa-a-item-when-data"><time itemprop="dateCreated" datetime="2020-12-31T23:26:55+0000" title="" data-original-title="2020-12-31T23:26:55+0000">Dec 31, 2020</time></span>
+</span>
+<span class="qa-a-item-who">
+<span class="qa-a-item-who-pad">by </span>
+<span class="qa-a-item-who-data"><span itemprop="author" itemscope="" itemtype="https://schema.org/Person"><a href="https://godotengine.org/qa/user/sustainablelab" class="qa-user-link" itemprop="url"><span itemprop="name">sustainablelab</span></a></span></span>
+<span class="qa-a-item-who-points">
+<span class="qa-a-item-who-points-pad">(</span><span class="qa-a-item-who-points-data">32</span><span class="qa-a-item-who-points-pad"> points)</span>
+</span>
+</span>
+</span>
+</span>
+<div class="qa-a-item-buttons">
+<button name="a91197_dofollow" title="" type="submit" class="qa-form-light-button qa-form-light-button-follow" data-original-title="Ask a new question relating to this answer">ask related question</button>
+<button name="a91197_docomment" onclick="return qa_toggle_element('c91197')" title="" type="submit" class="qa-form-light-button qa-form-light-button-comment" data-original-title="Add a comment on this answer">comment</button>
+</div>
+<input name="code" type="hidden" value="0-1621921124-641f8bfbb1adf7723437646c29ee0060be934bd0">
+<input name="qa_click" type="hidden" value="">
+</form>
+<div class="qa-a-item-c-list" style="display:none;" id="c91197_list">
+</div> <!-- END qa-c-list -->
+<div class="qa-c-form" id="c91197" style="display:none;">
+<h2>Please <a href="https://godotengine.org/qa/login?to=44307%2Fhow-to-make-a-local-multiplayer-game">log in</a> or <a href="https://godotengine.org/qa/register?to=44307%2Fhow-to-make-a-local-multiplayer-game">register</a> to add a comment.</h2>
+</div> <!-- END qa-c-form -->
+</div> <!-- END qa-a-item-main -->
+<div class="qa-a-item-clear clearfix">
+</div>
+</div> <!-- END qa-a-list-item -->
+</div> <!-- END qa-a-list -->
+</div>
+</div> <!-- END qa-main -->
+<div class="qa-sidepanel col-md-3 col-xs-12 pull-right">
+<div class="side-search-bar hidden-xs">
+<form class="search-form" role="form" method="get" action="../search">
+<div class="input-group">
+<input type="text" name="q" class="qa-search-field form-control" placeholder="Search">
+<span class="input-group-btn">
+<button type="submit" value="" class="btn qa-search-button"><span class="fa fa-search"></span></button>
+</span>
+</div>
+</form>
+</div>
+<div class="qa-sidebar">
+Welcome to Godot Engine Q&amp;A, where you can ask questions and receive answers from other members of the community.
+<br><br>
+Please make sure to read <a href="https://godotengine.org/qa/57">How to use this Q&amp;A?</a> before posting your first questions.
+<hr>
+<strong>Social login is currently unavailable. If you've previously logged in with a Facebook or GitHub account, use the <em>I forgot my password</em> link in the login box to set a password for your account.</strong>
+If you still can't access your account, send an email to <a href="mailto:webmaster@godotengine.org">webmaster@godotengine.org</a> with your username.
+</div>
+<div class="qa-nav-cat">
+<ul class="qa-nav-cat-list qa-nav-cat-list-1">
+<li class="qa-nav-cat-item qa-nav-cat-all">
+<a href="https://godotengine.org/qa/" class="qa-nav-cat-link">All categories</a>
+</li>
+<li class="qa-nav-cat-item qa-nav-cat-engine">
+<a href="https://godotengine.org/qa/engine" class="qa-nav-cat-link qa-nav-cat-selected" title="" data-original-title="For questions about using Godot Engine, the nodes, GDScript, C#, etc.">Engine</a>
+<span class="qa-nav-cat-note">23,344</span>
+</li>
+</ul>
+<div class="qa-nav-cat-clear clearfix">
+</div>
+</div>
+</div>
+</div> <!-- END main-wrapper -->
+</div> <!-- END main-shadow -->
+</div> <!-- END container -->
+</div> <!-- END body-wrapper -->
+<footer class="donut-footer">
+<div class="container">
+<div class="qa-footer">
+<div class="qa-nav-footer">
+<ul class="qa-nav-footer-list">
+</ul>
+<div class="qa-nav-footer-clear clearfix">
+</div>
+</div>
+<div class="footer-bottom">
+<div class="qa-attribution">
+<a href="https://github.com/amiyasahu/Donut">Donut Theme</a> <span class="fa fa-code"></span> with <span class="fa fa-heart"></span> by <a href="http://amiyasahu.github.io/">Amiya Sahu</a>
+</div>
+<div class="qa-attribution">
+Powered by <a href="http://www.question2answer.org/">Question2Answer</a>
+</div>
+</div>
+<div class="qa-footer-clear clearfix">
+</div>
+</div> <!-- END qa-footer -->
+</div> <!--END Container-->
+</footer> <!-- END footer -->
+<div style="position:absolute;overflow:hidden;clip:rect(0 0 0 0);height:0;width:0;margin:0;padding:0;border:0;">
+<span id="qa-waiting-template" class="qa-waiting fa fa-spinner fa-spin"></span>
+</div>
+
+
+
+</body><!-- Powered by Question2Answer - http://www.question2answer.org/ --></html>
