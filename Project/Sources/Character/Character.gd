@@ -78,12 +78,13 @@ func _physics_process(_delta):
 		myDisk.connect("destroyed", self, "_on_disk_destroyed")
 		$CatchArea.scale = Vector2(1,1)
 		
-	elif Input.is_action_just_pressed("ui_shield"):# and has_disk:
+	elif Input.is_action_just_pressed(myController.shield_action) and has_disk:
 		myShield = Shield.instance()
 		myShield.owner_character = self
 		$OriginDiskPop/DiskPop.add_child(myShield)
 		
-	elif Input.is_action_just_released("ui_shield"):# and has_disk:
+	elif Input.is_action_just_released(myController.shield_action) and has_disk \
+		and is_instance_valid(myShield):
 		myShield.queue_free()
 
 func hit(hitting_body, _remainder, damage_amount):

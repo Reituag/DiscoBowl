@@ -3,6 +3,7 @@ extends Node
 class_name KeyboardCharacterController
 
 var is_shooting = false
+var shield_action = 'shield_kb'
 
 # Actions handling. This function should be called in _physic_process in the
 #  controlled character
@@ -94,3 +95,12 @@ func config(kb_type = 'azerty'):
 	var shoot_click = InputEventMouseButton.new()
 	shoot_click.button_index = BUTTON_LEFT
 	InputMap.action_add_event("shoot_kb", shoot_click)
+	
+	########################
+	# Shield : Right-click #
+	########################
+	InputMap.add_action(shield_action)
+	# Right-click
+	var shield_click = InputEventMouseButton.new()
+	shield_click.button_index = BUTTON_RIGHT
+	InputMap.action_add_event(shield_action, shield_click)

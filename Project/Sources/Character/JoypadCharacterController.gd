@@ -4,7 +4,12 @@ class_name JoypadCharacterController
 
 var myDevice = -1
 var is_shooting = false
+var shield_action = ''
 
+var aim_dir = Vector2.UP
+var aim_sensibility = 0.6
+
+var aim_n
 var shoot_n
 var mv_up_n
 var mv_down_n
@@ -92,6 +97,17 @@ func config(deviceIndex: int):
 	shoot_bt.device = myDevice
 	shoot_bt.button_index = JOY_BUTTON_7
 	InputMap.action_add_event(shoot_n, shoot_bt)
+	
+	#########################
+	# Shield : Left trigger #
+	#########################
+	shield_action = "shield_{n}".format({'n':myDevice})
+	InputMap.add_action(shield_action)
+	var shield_bt = InputEventJoypadButton.new()
+	shield_bt.device = myDevice
+	shield_bt.button_index = JOY_BUTTON_6
+	InputMap.action_add_event(shield_action, shield_bt)
+	
 
 # Actions handling. This function should be called in _physic_process in the
 #  controlled character
@@ -110,6 +126,11 @@ func get_input() -> Vector2:
 
 
 func get_aim_direction() -> Vector2:
-	var dir = Vector2(-1.0, -1.0)
+	if abs(Input.get_joy_axis(myDevice, JOY_AXIS_2)) > aim_sensibility \
+		or abs(Input.get_joy_axis(myDevice, JOY_AXIS_3)) > aim_sensibility:
+		aim_dir.x = Input.get_joy_axis(myDevice, JOY_AXIS_2)
+		aim_dir.y = Input.get_joy_axis(myDevice, JOY_AXIS_3)
+		aim_dir.normalized()
+	
 	is_shooting = Input.is_action_pressed(shoot_n)
-	return dir.normalized()
+	return aim_dir
