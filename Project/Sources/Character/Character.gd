@@ -61,11 +61,11 @@ func _physics_process(_delta):
 	#######################
 	
 	# Get aiming direction
-	var aim_direction = get_viewport().get_mouse_position() - global_position
+	var aim_direction = myController.get_aim_direction()
 	var disk_pop_position = $OriginDiskPop/DiskPop.global_position - global_position
 	$OriginDiskPop.rotate(disk_pop_position.angle_to(aim_direction))
 	
-	if Input.is_action_just_released("ui_attack") and has_disk:
+	if myController.is_shooting and has_disk:
 		# Disk creation
 		myDisk = Disk.instance()
 		# Throw disk
@@ -91,14 +91,16 @@ func hit(hitting_body, _remainder, damage_amount):
 		catch_disk(hitting_body)
 	else:
 		receive_damage(damage_amount)
+		hitting_body.destroy()
 
 func receive_damage(damage_amount):
 	if current_life - damage_amount <= 0:
 		emit_signal("die")
+		current_life = 0
 	else:
 		current_life -= damage_amount
-		$LifeBar.value = current_life
-		
+	$LifeBar.value = current_life
+
 func catch_disk(_disk):
 	myDisk.destroy()
 	$CatchArea.scale = Vector2(0.1, 0.1)
