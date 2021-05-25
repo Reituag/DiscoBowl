@@ -15,8 +15,7 @@ export var start_life = 100
 var current_life
 
 # Movement controller dedicated to this character's movement
-var myController = preload("res://Sources/Character/JoypadCharacterController.tscn") \
-					setget set_myController
+var myController = preload("res://Sources/Character/JoypadCharacterController.tscn")
 
 signal die
 
@@ -27,17 +26,14 @@ func _ready():
 	current_life = start_life
 	$LifeBar.max_value = start_life
 	$LifeBar.value = current_life
-	# Temporary controller configuration. This should be handled by a higher 
-	# level instance as world or main
-#	myController = myController.instance()
-#	myController.config(0)
 
-func set_myController(ctrl):
-	myController = ctrl
-	add_child(myController)
-
-func start(pos):
+func start(pos, ctrler):
+	# start position definition
 	position = pos
+	# Controller definition
+	myController = ctrler
+	add_child(myController)
+	# Display in scene
 	show()
 
 func _physics_process(_delta):
