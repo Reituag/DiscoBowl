@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "JoypadCharacterController",
 "language": "GDScript",
 "path": "res://Sources/Character/JoypadCharacterController.gd"
+}, {
+"base": "Node",
+"class": "KeyboardCharacterController",
+"language": "GDScript",
+"path": "res://Sources/Character/KeyboardCharacterController.gd"
 } ]
 _global_script_class_icons={
 "Disk": "",
-"JoypadCharacterController": ""
+"JoypadCharacterController": "",
+"KeyboardCharacterController": ""
 }
 
 [application]
