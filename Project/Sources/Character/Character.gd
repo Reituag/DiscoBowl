@@ -14,6 +14,9 @@ export var damping_factor = 0.9
 export var start_life = 100
 var current_life
 
+# Movement controller dedicated to this character's movement
+var myController = preload("res://Sources/Character/JoypadCharacterController.tscn")
+
 signal die
 
 func _ready():
@@ -24,37 +27,33 @@ func _ready():
 	$LifeBar.max_value = start_life
 	$LifeBar.value = current_life
 
-func start(pos):
+func start(pos, ctrler):
+	# start position definition
 	position = pos
+	# Controller definition
+	myController = ctrler
+	add_child(myController)
+	# Display in scene
 	show()
 
 func _physics_process(_delta):
 	#######################
 	# Movement management #
 	#######################
-	var velocity = Vector2()
-	if Input.is_action_pressed("ui_right"):
-		velocity.x += 1
-	if Input.is_action_pressed("ui_left"):
-		velocity.x -= 1
-	if Input.is_action_pressed("ui_down"):
-		velocity.y += 1
-	if Input.is_action_pressed("ui_up"):
-		velocity.y -= 1
+	var velocity = myController.get_input()
 	
 	if velocity.length() > 0:
-		velocity = velocity.normalized() * speed
+		velocity = velocity * speed
 		$AnimatedSprite.play("walk")
 		$AnimatedSprite.flip_h = velocity.x < 0
 	else:
 		$AnimatedSprite.play("idle")
 	
-	#Addition of velocity remaing from a hit
+	# Addition of velocity remaing from a hit
 	if not remaining_speed.is_equal_approx(Vector2.ZERO) :
 		velocity += remaining_speed*speed
 		remaining_speed = remaining_speed*damping_factor
-#		print(delta)
-		
+	
 	move_and_slide(velocity)
 	
 	#######################
@@ -62,11 +61,11 @@ func _physics_process(_delta):
 	#######################
 	
 	# Get aiming direction
-	var aim_direction = get_viewport().get_mouse_position() - global_position
+	var aim_direction = myController.get_aim_direction()
 	var disk_pop_position = $OriginDiskPop/DiskPop.global_position - global_position
 	$OriginDiskPop.rotate(disk_pop_position.angle_to(aim_direction))
 	
-	if Input.is_action_just_released("ui_attack") and has_disk:
+	if myController.is_shooting and has_disk:
 		# Disk creation
 		myDisk = Disk.instance()
 		# Throw disk
@@ -79,12 +78,13 @@ func _physics_process(_delta):
 		myDisk.connect("destroyed", self, "_on_disk_destroyed")
 		$CatchArea.scale = Vector2(1,1)
 		
-	elif Input.is_action_just_pressed("ui_shield"):# and has_disk:
+	elif Input.is_action_just_pressed(myController.shield_action) and has_disk:
 		myShield = Shield.instance()
 		myShield.owner_character = self
 		$OriginDiskPop/DiskPop.add_child(myShield)
 		
-	elif Input.is_action_just_released("ui_shield"):# and has_disk:
+	elif Input.is_action_just_released(myController.shield_action) and has_disk \
+		and is_instance_valid(myShield):
 		myShield.queue_free()
 
 func hit(hitting_body, _remainder, damage_amount):
@@ -92,14 +92,16 @@ func hit(hitting_body, _remainder, damage_amount):
 		catch_disk(hitting_body)
 	else:
 		receive_damage(damage_amount)
+		hitting_body.destroy()
 
 func receive_damage(damage_amount):
 	if current_life - damage_amount <= 0:
 		emit_signal("die")
+		current_life = 0
 	else:
 		current_life -= damage_amount
-		$LifeBar.value = current_life
-		
+	$LifeBar.value = current_life
+
 func catch_disk(_disk):
 	myDisk.destroy()
 	$CatchArea.scale = Vector2(0.1, 0.1)
