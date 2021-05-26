@@ -1,0 +1,9 @@
+References :
+
+-----------------------------
+-- Godot Local Multiplayer --
+-----------------------------
+> Handling various InputMap (one joypad = 1 player )
+> Generic/Sizeable InputMap
+
+https://godotengine.org/qa/44307/how-to-make-a-local-multiplayer-game
