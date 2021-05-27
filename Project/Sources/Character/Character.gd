@@ -33,6 +33,8 @@ func start(pos, ctrler):
 	# Controller definition
 	myController = ctrler
 	add_child(myController)
+	if myController is KeyboardCharacterController:
+		$OriginDiskPop/DiskPop/Reticule.texture = null
 	# Display in scene
 	show()
 
