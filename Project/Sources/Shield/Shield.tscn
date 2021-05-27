@@ -16,8 +16,9 @@ __meta__ = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource( 1 )
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
-color = Color( 0.46048, 0.115723, 0.617188, 0.462745 )
+color = Color( 0.713726, 0.239216, 0.929412, 1 )
 polygon = PoolVector2Array( 3.87635, -19.6573, 1.82025, -22.8972, -1.68745, -22.8972, -3.79207, -19.7403, -3.94652, 19.3811, -2.26094, 22.565, 1.76577, 22.8459, 3.82594, 19.5684 )

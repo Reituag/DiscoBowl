@@ -82,10 +82,12 @@ func _physics_process(_delta):
 		myShield = Shield.instance()
 		myShield.owner_character = self
 		$OriginDiskPop/DiskPop.add_child(myShield)
+		$OriginDiskPop/DiskPop/Reticule.hide()
 		
 	elif Input.is_action_just_released(myController.shield_action) and has_disk \
 		and is_instance_valid(myShield):
 		myShield.queue_free()
+		$OriginDiskPop/DiskPop/Reticule.show()
 
 func hit(hitting_body, _remainder, damage_amount):
 	if hitting_body == myDisk:
