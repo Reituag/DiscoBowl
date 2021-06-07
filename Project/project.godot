@@ -36,12 +36,15 @@ config/name="DiscoBowl"
 run/main_scene="res://Sources/Main.tscn"
 config/icon="res://Art/Character/character_idle_0.png"
 
+[autoload]
+
+Global="*res://Sources/global.gd"
+
 [display]
 
 window/size/width=1920
 window/size/height=1080
 window/stretch/mode="2d"
-window/stretch/aspect="keep"
 
 [input]
 
