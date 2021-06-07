@@ -67,7 +67,7 @@ func _physics_process(_delta):
 	var disk_pop_position = $OriginDiskPop/DiskPop.global_position - global_position
 	$OriginDiskPop.rotate(disk_pop_position.angle_to(aim_direction))
 	
-	if myController.is_shooting and has_disk:
+	if myController.is_shooting and has_disk and myShield == null:
 		# Disk creation
 		myDisk = Disk.instance()
 		# Throw disk
@@ -90,6 +90,7 @@ func _physics_process(_delta):
 		and is_instance_valid(myShield):
 		myShield.queue_free()
 		$OriginDiskPop/DiskPop/Reticule.show()
+		myShield = null
 
 func hit(hitting_body, _remainder, damage_amount):
 	if hitting_body == myDisk:
