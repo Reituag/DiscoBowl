@@ -1,4 +1,4 @@
-extends MarginContainer
+extends ScrollContainer
 
 # Scenes Import
 var char_selec = preload("res://Sources/UI/CharacterSelection/CharacterSelector.tscn")
@@ -53,7 +53,7 @@ func _ready():
 	for i in range(nb_ctrlers):
 		# First column : controller list
 		# Index creation
-		var index = 'j{n}'.format(i)
+		var index = 'j{0}'.format([i])
 		create_ctrl_indic(index, false, false, ctrler_list)
 		# Addition in the coordinates memorization 
 		ctrlers_coord[index] = 0
@@ -61,6 +61,7 @@ func _ready():
 		# Other columns, number of player dependant
 		for j in nb_players:
 			create_ctrl_indic(index, false, true, players_list[j].get_list())
+
 
 # Function allowing to create a controller indicator, configurate it and add it
 # as a child of a given node.
@@ -82,10 +83,12 @@ func create_ctrl_indic(index, is_keyboard, is_empty, parentNode : VBoxContainer)
 func _input(event):
 	if event.is_action_pressed("ui_right"):
 		var index = get_device_index(event)
-		move_controller(index, +1)
+		if index != '':
+			move_controller(index, +1)
 	elif event.is_action_pressed("ui_left"):
 		var index = get_device_index(event)
-		move_controller(index, -1)
+		if index != '':
+			move_controller(index, +1)
 
 func get_device_index(event):
 	if event is InputEventKey:
