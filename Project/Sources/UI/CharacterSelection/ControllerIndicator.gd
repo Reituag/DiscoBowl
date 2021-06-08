@@ -1,6 +1,7 @@
 extends CenterContainer
 
-export var is_keyboard = false;
+export var is_keyboard = false setget set_keyboard
+export var is_empty = false setget set_empty
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -9,10 +10,16 @@ export var is_keyboard = false;
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$Keyboard.visible = is_keyboard
-	$Gamepad.visible = not is_keyboard
+	draw()
 
+func draw():
+	$Keyboard.visible = is_keyboard and not is_empty
+	$Gamepad.visible = not is_keyboard and not is_empty
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func set_keyboard(status):
+	is_keyboard = status
+	draw()
+
+func set_empty(status):
+	is_empty = status
+	draw()
