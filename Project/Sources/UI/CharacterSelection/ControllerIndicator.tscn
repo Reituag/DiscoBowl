@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Art/Icons/console.svg" type="Texture" id=1]
 [ext_resource path="res://Art/Icons/keyboard.svg" type="Texture" id=2]
 [ext_resource path="res://Sources/UI/CharacterSelection/ControllerIndicator.gd" type="Script" id=3]
 [ext_resource path="res://Art/Icons/empty.png" type="Texture" id=4]
+[ext_resource path="res://Art/Icons/locked.png" type="Texture" id=5]
 
 [node name="ControllerIndicator" type="CenterContainer"]
 margin_right = 256.0
@@ -41,6 +42,17 @@ margin_bottom = 170.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource( 2 )
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Locked" type="TextureRect" parent="."]
+margin_right = 256.0
+margin_bottom = 170.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 5 )
 stretch_mode = 6
 __meta__ = {
 "_edit_use_anchors_": false

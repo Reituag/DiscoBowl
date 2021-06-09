@@ -16,10 +16,10 @@ onready var ctrler_list : VBoxContainer = $HBoxContainer/Controllers/VBoxContain
 var ui_matrix = {}
 # Memorization of the coordonates of each controller
 # example of value 
-# { 'k0' : 0,
-#   'j0' : 1,
-#   'j1' : 2,
-#   'j2' : 0 }
+# { 'k0' : {'col' :0, 'locked' : true},
+#   'j0' : {'col' :1, 'locked' : true},
+#   'j1' : {'col' :2, 'locked' : false},
+#   'j2' : {'col' :0, 'locked' : false} }
 var ctrlers_coord = {}
 
 export var nb_players = 4
@@ -43,7 +43,7 @@ func _ready():
 		var index = 'k{n}'.format({'n':i})
 		create_ctrl_indic(index, true, false, ctrler_list)
 		# Addition in the coordinates memorization 
-		ctrlers_coord[index] = 0
+		ctrlers_coord[index] = {'col':0, 'locked':false}
 		
 		# Other columns, number of player dependant
 		for j in nb_players:
@@ -56,7 +56,7 @@ func _ready():
 		var index = 'j{0}'.format([i])
 		create_ctrl_indic(index, false, false, ctrler_list)
 		# Addition in the coordinates memorization 
-		ctrlers_coord[index] = 0
+		ctrlers_coord[index] = {'col':0, 'locked':false}
 		
 		# Other columns, number of player dependant
 		for j in nb_players:
@@ -88,7 +88,15 @@ func _input(event):
 	elif event.is_action_pressed("ui_left"):
 		var index = get_device_index(event)
 		if index != '':
-			move_controller(index, +1)
+			move_controller(index, -1)
+	elif event.is_action_pressed("ui_accept"):
+		var index = get_device_index(event)
+		if index != '':
+			lock_controller(index, true)
+	elif event.is_action_pressed("ui_cancel"):
+		var index = get_device_index(event)
+		if index != '':
+			lock_controller(index, false)
 
 func get_device_index(event):
 	if event is InputEventKey:
@@ -101,8 +109,14 @@ func get_device_index(event):
 func move_controller(index, mvt):
 	# Hide previous position
 	var coord = ctrlers_coord[index]
-	ui_matrix[index][coord].is_empty = true
-	# Show new position & memorize
-	coord = (coord+mvt)%(nb_players+1)
-	ctrlers_coord[index] = coord
-	ui_matrix[index][coord].is_empty = false
+	if not coord['locked']:
+		ui_matrix[index][coord['col']].is_empty = true
+		# Show new position & memorize
+		coord['col'] = (coord['col']+mvt)%(nb_players+1)
+		ctrlers_coord[index] = coord
+		ui_matrix[index][coord['col']].is_empty = false
+
+func lock_controller(index, is_locked):
+	ctrlers_coord[index]['locked'] = is_locked
+#	if ctrlers_coord[index]['col'] != 0:
+	ui_matrix[index][ctrlers_coord[index]['col']].is_locked = is_locked
