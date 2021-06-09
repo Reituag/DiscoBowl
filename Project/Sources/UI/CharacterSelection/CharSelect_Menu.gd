@@ -22,46 +22,55 @@ var ui_matrix = {}
 #   'j2' : {'col' :0, 'locked' : false} }
 var ctrlers_coord = {}
 
+# Number of Players.
+# Defines the number of columns in addition of the controllers list
 export var nb_players = 4
+# Each player column has a VBox in order to receive the controller indicators
+# These Vboxes are listed in this variable
+var player_lists = []
+# Number of connected keyboards
+export var nb_kboards = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# Matrix of controller indicators creation
-	var nb_kboards = 1
 	var nb_ctrlers = Input.get_connected_joypads().size()
 	
-	var players_list = []
+	# Menu configuration given the number of players
 	for i in nb_players:
+		# Addition of a character_selection widget
 		var charSelect = char_selec.instance()
 		charSelect.character_name = "Player {n}".format({'n':i+1})
 		$HBoxContainer.add_child(charSelect)
-		players_list.append(charSelect)
+		# Memorization of its controller list
+		player_lists.append(charSelect)
 	
+	# Keyboards addition
 	for i in range(nb_kboards):
-		# First column : controller list
-		# Index creation
-		var index = 'k{n}'.format({'n':i})
-		create_ctrl_indic(index, true, false, ctrler_list)
-		# Addition in the coordinates memorization 
-		ctrlers_coord[index] = {'col':0, 'locked':false}
-		
-		# Other columns, number of player dependant
-		for j in nb_players:
-			create_ctrl_indic(index, true, true, players_list[j].get_list())
-		
-		
-	for i in range(nb_ctrlers):
-		# First column : controller list
-		# Index creation
-		var index = 'j{0}'.format([i])
-		create_ctrl_indic(index, false, false, ctrler_list)
-		# Addition in the coordinates memorization 
-		ctrlers_coord[index] = {'col':0, 'locked':false}
-		
-		# Other columns, number of player dependant
-		for j in nb_players:
-			create_ctrl_indic(index, false, true, players_list[j].get_list())
+		config_ctrler(true, i)
+	
+	# Joypads additions
+	for i in range(nb_kboards, nb_ctrlers+nb_kboards):
+		config_ctrler(false, i)
+	
+	Input.connect("joy_connection_changed", self, '_on_joy_connection_changed')
 
+# Fonction allowing to configurate entirely a controller given a device index
+# and a status (keyboard or joypad)
+func config_ctrler(is_keyboard, ctrler_index):
+	# Index creation
+	var index 
+	if is_keyboard:
+		index = 'k{n}'.format({'n':ctrler_index})
+	else:
+		index = 'j{0}'.format([ctrler_index])
+	# First column : controller list
+	create_ctrl_indic(index, is_keyboard, false, ctrler_list)
+	# Addition in the coordinates memorization 
+	ctrlers_coord[index] = {'col':0, 'locked':false}
+	
+	# Other columns, number of player dependant and hidden icons
+	for j in nb_players:
+		create_ctrl_indic(index, is_keyboard, true, player_lists[j].get_list())
 
 # Function allowing to create a controller indicator, configurate it and add it
 # as a child of a given node.
@@ -78,6 +87,18 @@ func create_ctrl_indic(index, is_keyboard, is_empty, parentNode : VBoxContainer)
 	else:
 		ui_matrix[index] = [indic]
 	parentNode.add_child(indic)
+
+func delete_ctrler(index):
+	ctrlers_coord.erase(index)
+	for elt in ui_matrix[index]:
+		elt.queue_free()
+	ui_matrix.erase(index)
+
+func _on_joy_connection_changed(device: int, connected: bool):
+	if connected:
+		config_ctrler(false, device)
+	else:
+		delete_ctrler('j{0}'.format([device]))
 
 
 func _input(event):
