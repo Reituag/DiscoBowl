@@ -1,0 +1,163 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Art/game_theme.tres" type="Theme" id=1]
+[ext_resource path="res://Sources/UI/Menus/MainMenu.gd" type="Script" id=2]
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+margin_left = 616.0
+margin_top = 155.0
+margin_right = 1304.0
+margin_bottom = 383.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 681.0
+margin_bottom = 221.0
+custom_constants/margin_right = 150
+custom_constants/margin_top = 50
+custom_constants/margin_left = 150
+custom_constants/margin_bottom = 50
+
+[node name="Label" type="Label" parent="VBoxContainer/PanelContainer/MarginContainer"]
+margin_left = 150.0
+margin_top = 50.0
+margin_right = 524.0
+margin_bottom = 164.0
+theme = ExtResource( 1 )
+text = "Welcome to the
+
+DISCOBOWL !"
+align = 1
+valign = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 771.0
+margin_right = 1920.0
+margin_bottom = 851.0
+size_flags_horizontal = 7
+size_flags_vertical = 6
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonLocal" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_left = 179.0
+margin_right = 779.0
+margin_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 600, 80 )
+size_flags_horizontal = 6
+size_flags_vertical = 6
+theme = ExtResource( 1 )
+text = " Local Game "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonMulti" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_left = 1141.0
+margin_right = 1741.0
+margin_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 600, 80 )
+size_flags_horizontal = 6
+size_flags_vertical = 6
+theme = ExtResource( 1 )
+text = " Multiplayer Game "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PopupLocal" type="WindowDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -400.0
+margin_top = -300.0
+margin_right = 400.0
+margin_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 800, 600 )
+window_title = "Local game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PopupLocal"]
+anchor_left = 0.25
+anchor_right = 0.75
+anchor_bottom = 1.0
+margin_left = -137.0
+margin_top = 50.0
+margin_right = 138.0
+margin_bottom = -50.0
+grow_horizontal = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PopupLocal/VBoxContainer"]
+margin_top = 64.0
+margin_right = 675.0
+margin_bottom = 100.0
+size_flags_vertical = 6
+theme = ExtResource( 1 )
+text = "Choose a number of players"
+align = 1
+valign = 1
+
+[node name="LineEdit" type="LineEdit" parent="PopupLocal/VBoxContainer"]
+margin_left = 162.0
+margin_top = 210.0
+margin_right = 512.0
+margin_bottom = 290.0
+rect_min_size = Vector2( 350, 80 )
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme = ExtResource( 1 )
+text = "2"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="PopupLocal/VBoxContainer"]
+margin_left = 162.0
+margin_top = 378.0
+margin_right = 512.0
+margin_bottom = 458.0
+rect_min_size = Vector2( 350, 80 )
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme = ExtResource( 1 )
+text = "Start Game"
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/ButtonLocal" to="." method="_on_ButtonLocal_pressed"]
