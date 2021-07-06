@@ -1,6 +1,6 @@
 extends Control
 
-var CharSelectMenu = preload("res://Sources/UI/CharacterSelection/CharSelect_Menu.tscn")
+var CharSelectMenu = preload("res://Sources/UI/ControllerSelection/CtrlerSelect_Menu.tscn")
 
 # Memorization of children 
 onready var localPopup = $PopupLocal

@@ -1,0 +1,98 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Sources/UI/ControllerSelection/CtrlerSelect_Menu.gd" type="Script" id=1]
+[ext_resource path="res://Art/game_theme.tres" type="Theme" id=2]
+
+[node name="CtrlerSelect_Menu" type="ScrollContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 30.0
+margin_top = 30.0
+margin_right = -30.0
+margin_bottom = -30.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_right = 1860.0
+margin_bottom = 1020.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 20
+
+[node name="CtrlerMatrix" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 1860.0
+margin_bottom = 940.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 15
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Controllers" type="PanelContainer" parent="VBoxContainer/CtrlerMatrix"]
+margin_right = 1860.0
+margin_bottom = 940.0
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/CtrlerMatrix/Controllers"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 1853.0
+margin_bottom = 933.0
+custom_constants/separation = 10
+
+[node name="Label" type="Label" parent="VBoxContainer/CtrlerMatrix/Controllers/VBoxContainer"]
+margin_right = 1846.0
+margin_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 350, 100 )
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme = ExtResource( 2 )
+text = "Available
+Controllers"
+align = 1
+valign = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/CtrlerMatrix/Controllers/VBoxContainer"]
+margin_top = 110.0
+margin_right = 1846.0
+margin_bottom = 114.0
+
+[node name="List" type="VBoxContainer" parent="VBoxContainer/CtrlerMatrix/Controllers/VBoxContainer"]
+margin_top = 124.0
+margin_right = 1846.0
+margin_bottom = 124.0
+alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 960.0
+margin_right = 1860.0
+margin_bottom = 1020.0
+size_flags_horizontal = 3
+
+[node name="Cancel" type="Button" parent="VBoxContainer/Buttons"]
+margin_left = 289.0
+margin_right = 639.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 350, 60 )
+size_flags_horizontal = 6
+theme = ExtResource( 2 )
+text = "Cancel"
+
+[node name="Start" type="Button" parent="VBoxContainer/Buttons"]
+margin_left = 1221.0
+margin_right = 1571.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 350, 60 )
+size_flags_horizontal = 6
+theme = ExtResource( 2 )
+text = "Start"

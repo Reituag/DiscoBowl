@@ -1,11 +1,13 @@
 extends ScrollContainer
 
 # Scenes Import
-var char_selec = preload("res://Sources/UI/CharacterSelection/CharacterSelector.tscn")
-var ctrl_indic = preload("res://Sources/UI/CharacterSelection/ControllerIndicator.tscn")
+var char_selec = preload("res://Sources/UI/ControllerSelection/CharacterSelector.tscn")
+var ctrl_indic = preload("res://Sources/UI/ControllerSelection/ControllerIndicator.tscn")
 
 # VBox of the controller list
-onready var ctrler_list : VBoxContainer = $HBoxContainer/Controllers/VBoxContainer/List
+onready var ctrler_list : VBoxContainer = $VBoxContainer/CtrlerMatrix/Controllers/VBoxContainer/List
+# HBox containing controller list and player selectors
+onready var ctrler_matrix : HBoxContainer = $VBoxContainer/CtrlerMatrix
 
 # Matrix of controller indicators
 # Lines are indexed with keyboard and joypad, colums with player.
@@ -37,7 +39,7 @@ func _ready():
 		# Addition of a character_selection widget
 		var charSelect = char_selec.instance()
 		charSelect.character_name = "Player {n}".format({'n':i+1})
-		$HBoxContainer.add_child(charSelect)
+		ctrler_matrix.add_child(charSelect)
 		# Memorization of its controller list
 		player_lists.append(charSelect)
 	

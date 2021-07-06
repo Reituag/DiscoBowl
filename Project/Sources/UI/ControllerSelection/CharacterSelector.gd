@@ -1,7 +1,7 @@
 extends PanelContainer
 
 export var character_name = 'PlayerX' setget set_name
-onready var _name = $VBoxContainer/MarginContainer/Label
+onready var _name = $VBoxContainer/Label
 onready var list = $VBoxContainer/CtrlerList
 
 
