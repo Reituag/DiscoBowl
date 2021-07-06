@@ -2,10 +2,10 @@ extends Control
 
 var CharSelectMenu = preload("res://Sources/UI/CharacterSelection/CharSelect_Menu.tscn")
 
-# Memorization of the popup menu use to configurate the local game
+# Memorization of children 
 onready var localPopup = $PopupLocal
-onready var nbPlayerTxt = $PopupLocal/VBoxContainer/LineEdit
-onready var nbplayerSlider = $PopupLocal/VBoxContainer/HSlider
+onready var nbLocalPlayerTxt = $PopupLocal/VBoxContainer/LocalNbPlayers
+onready var nbLocalPlayerSlider = $PopupLocal/VBoxContainer/LocalSlider
 
 ## Scene configuration ##
 func _ready():
@@ -26,13 +26,17 @@ func _on_LineEdit_text_changed(new_text):
 	var ok_str = "1_2_3_4_5_6_7_8"
 	# Ensures that the number of players is an integer in [1;8]
 	if (new_text in ok_str):
-		nbPlayerTxt.text = new_text
-		nbplayerSlider.value = float(new_text)
+		nbLocalPlayerTxt.text = new_text
+		nbLocalPlayerSlider.value = float(new_text)
 	else:
-		nbPlayerTxt.text = "2"
-		nbplayerSlider.value = 2.0
-
-
+		nbLocalPlayerTxt.text = "2"
+		nbLocalPlayerSlider.value = 2.0
 
 func _on_HSlider_value_changed(value):
-	nbPlayerTxt.text = String(value)
+	nbLocalPlayerTxt.text = String(value)
+
+func _on_LocalStart_pressed():
+	# Number of player configuration
+	Global.nb_players = int(nbLocalPlayerTxt.text)
+	# Change node to new menu
+	get_tree().change_scene_to(CharSelectMenu)

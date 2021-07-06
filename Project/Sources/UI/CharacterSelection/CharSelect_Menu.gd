@@ -22,9 +22,6 @@ var ui_matrix = {}
 #   'j2' : {'col' :0, 'locked' : false} }
 var ctrlers_coord = {}
 
-# Number of Players.
-# Defines the number of columns in addition of the controllers list
-export var nb_players = 4
 # Each player column has a VBox in order to receive the controller indicators
 # These Vboxes are listed in this variable
 var player_lists = []
@@ -36,7 +33,7 @@ func _ready():
 	var nb_ctrlers = Input.get_connected_joypads().size()
 	
 	# Menu configuration given the number of players
-	for i in nb_players:
+	for i in Global.nb_players:
 		# Addition of a character_selection widget
 		var charSelect = char_selec.instance()
 		charSelect.character_name = "Player {n}".format({'n':i+1})
@@ -69,7 +66,7 @@ func config_ctrler(is_keyboard, ctrler_index):
 	ctrlers_coord[index] = {'col':0, 'locked':false}
 	
 	# Other columns, number of player dependant and hidden icons
-	for j in nb_players:
+	for j in Global.nb_players:
 		create_ctrl_indic(index, is_keyboard, true, player_lists[j].get_list())
 
 # Function allowing to create a controller indicator, configurate it and add it
@@ -133,7 +130,7 @@ func move_controller(index, mvt):
 	if not coord['locked']:
 		ui_matrix[index][coord['col']].is_empty = true
 		# Show new position & memorize
-		coord['col'] = (coord['col']+mvt)%(nb_players+1)
+		coord['col'] = (coord['col']+mvt)%(Global.nb_players+1)
 		ctrlers_coord[index] = coord
 		ui_matrix[index][coord['col']].is_empty = false
 

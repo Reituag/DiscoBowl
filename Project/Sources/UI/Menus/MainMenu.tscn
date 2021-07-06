@@ -118,7 +118,7 @@ margin_right = 1075.0
 margin_bottom = 148.0
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="PopupLocal/VBoxContainer/PanelContainer"]
+[node name="LocalTitle" type="Label" parent="PopupLocal/VBoxContainer/PanelContainer"]
 margin_left = 7.0
 margin_top = 56.0
 margin_right = 1068.0
@@ -129,7 +129,7 @@ text = "Choose a number of players"
 align = 1
 valign = 1
 
-[node name="HSlider" type="HSlider" parent="PopupLocal/VBoxContainer"]
+[node name="LocalSlider" type="HSlider" parent="PopupLocal/VBoxContainer"]
 margin_left = 362.0
 margin_top = 186.0
 margin_right = 712.0
@@ -147,7 +147,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LineEdit" type="LineEdit" parent="PopupLocal/VBoxContainer"]
+[node name="LocalNbPlayers" type="LineEdit" parent="PopupLocal/VBoxContainer"]
 margin_left = 362.0
 margin_top = 339.0
 margin_right = 712.0
@@ -162,7 +162,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button" type="Button" parent="PopupLocal/VBoxContainer"]
+[node name="LocalStart" type="Button" parent="PopupLocal/VBoxContainer"]
 margin_left = 362.0
 margin_top = 492.0
 margin_right = 712.0
@@ -173,7 +173,7 @@ size_flags_vertical = 6
 theme = ExtResource( 1 )
 text = "Start Game"
 
-[node name="ButtonCancel" type="Button" parent="PopupLocal/VBoxContainer"]
+[node name="LocalCancel" type="Button" parent="PopupLocal/VBoxContainer"]
 margin_left = 362.0
 margin_top = 611.0
 margin_right = 712.0
@@ -185,6 +185,7 @@ theme = ExtResource( 1 )
 text = "Cancel"
 
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/ButtonLocal" to="." method="_on_ButtonLocal_pressed"]
-[connection signal="value_changed" from="PopupLocal/VBoxContainer/HSlider" to="." method="_on_HSlider_value_changed"]
-[connection signal="text_changed" from="PopupLocal/VBoxContainer/LineEdit" to="." method="_on_LineEdit_text_changed"]
-[connection signal="pressed" from="PopupLocal/VBoxContainer/ButtonCancel" to="." method="_on_ButtonCancel_pressed"]
+[connection signal="value_changed" from="PopupLocal/VBoxContainer/LocalSlider" to="." method="_on_HSlider_value_changed"]
+[connection signal="text_changed" from="PopupLocal/VBoxContainer/LocalNbPlayers" to="." method="_on_LineEdit_text_changed"]
+[connection signal="pressed" from="PopupLocal/VBoxContainer/LocalStart" to="." method="_on_LocalStart_pressed"]
+[connection signal="pressed" from="PopupLocal/VBoxContainer/LocalCancel" to="." method="_on_ButtonCancel_pressed"]
