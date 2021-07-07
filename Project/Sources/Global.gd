@@ -1,7 +1,8 @@
 extends Node
 
 # Number of players
-var nb_players = 4;
+const max_local_players = 4;
+var nb_players = max_local_players;
 
 # MainMenu preload
 var mainMenu = preload("res://Sources/UI/Menus/MainMenu.tscn")

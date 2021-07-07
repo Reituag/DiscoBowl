@@ -138,10 +138,10 @@ rect_min_size = Vector2( 350, 80 )
 size_flags_horizontal = 4
 size_flags_vertical = 6
 min_value = 1.0
-max_value = 8.0
+max_value = 4.0
 value = 2.0
 rounded = true
-tick_count = 8
+tick_count = 4
 ticks_on_borders = true
 __meta__ = {
 "_edit_use_anchors_": false

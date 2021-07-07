@@ -1,17 +1,17 @@
-extends ScrollContainer
+extends VBoxContainer
 
 # Scenes Import
-var char_selec = preload("res://Sources/UI/ControllerSelection/CharacterSelector.tscn")
+var playerSelect = preload("res://Sources/UI/ControllerSelection/PlayerSelector.tscn")
 var ctrl_indic = preload("res://Sources/UI/ControllerSelection/ControllerIndicator.tscn")
 
 # VBox of the controller list
-onready var ctrler_list : VBoxContainer = $VBoxContainer/CtrlerMatrix/Controllers/VBoxContainer/List
-# HBox containing controller list and player selectors
-onready var ctrler_matrix : HBoxContainer = $VBoxContainer/CtrlerMatrix
+onready var ctrler_list : VBoxContainer = $CtrlerMatrix/Controllers/VBoxContainer/List
+# HBox containing player selectors
+onready var players : HBoxContainer = $CtrlerMatrix/Players
 # Cancel button
-onready var cancelButton = $VBoxContainer/Buttons/VBoxContainer/Cancel
+onready var cancelButton = $Buttons/VBoxContainer/Cancel
 # Cancel Progress
-onready var cancelProgress = $VBoxContainer/Buttons/VBoxContainer/CancelProgress
+onready var cancelProgress = $Buttons/VBoxContainer/CancelProgress
 
 # Matrix of controller indicators
 # Lines are indexed with keyboard and joypad, colums with player.
@@ -43,11 +43,11 @@ func _ready():
 	# Menu configuration given the number of players
 	for i in Global.nb_players:
 		# Addition of a character_selection widget
-		var charSelect = char_selec.instance()
-		charSelect.character_name = "Player {n}".format({'n':i+1})
-		ctrler_matrix.add_child(charSelect)
+		var player_select = playerSelect.instance()
+		player_select.player_name = "Player {n}".format({'n':i+1})
+		players.add_child(player_select)
 		# Memorization of its controller list
-		player_lists.append(charSelect)
+		player_lists.append(player_select)
 	
 	# Keyboards addition
 	for i in range(nb_kboards):
@@ -82,7 +82,7 @@ func config_ctrler(is_keyboard, ctrler_index):
 # Function allowing to create a controller indicator, configurate it and add it
 # as a child of a given node.
 # Used to instanciate every controller indicator at creating this menu.
-func create_ctrl_indic(index, is_keyboard, is_empty, parentNode : VBoxContainer):
+func create_ctrl_indic(index, is_keyboard, is_empty, parentNode):
 	# controller indicator instanciation
 	var indic = ctrl_indic.instance()
 	# Configuration : joypad and visible

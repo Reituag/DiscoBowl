@@ -9,7 +9,6 @@
 [node name="ControllerIndicator" type="CenterContainer"]
 margin_right = 256.0
 margin_bottom = 170.0
-rect_scale = Vector2( 0.5, 0.5 )
 size_flags_horizontal = 3
 size_flags_vertical = 0
 script = ExtResource( 5 )
@@ -18,8 +17,9 @@ __meta__ = {
 }
 
 [node name="Background" type="TextureRect" parent="."]
+margin_top = 10.0
 margin_right = 256.0
-margin_bottom = 170.0
+margin_bottom = 160.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource( 3 )
@@ -29,16 +29,18 @@ __meta__ = {
 }
 
 [node name="Gamepad" type="TextureRect" parent="."]
+margin_top = 10.0
 margin_right = 256.0
-margin_bottom = 170.0
+margin_bottom = 160.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource( 1 )
 stretch_mode = 6
 
 [node name="Keyboard" type="TextureRect" parent="."]
+margin_top = 10.0
 margin_right = 256.0
-margin_bottom = 170.0
+margin_bottom = 160.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource( 2 )
@@ -48,8 +50,9 @@ __meta__ = {
 }
 
 [node name="Locked" type="TextureRect" parent="."]
+margin_top = 10.0
 margin_right = 256.0
-margin_bottom = 170.0
+margin_bottom = 160.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource( 4 )
