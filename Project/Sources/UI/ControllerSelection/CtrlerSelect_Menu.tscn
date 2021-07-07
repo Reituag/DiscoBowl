@@ -1,7 +1,20 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Sources/UI/ControllerSelection/CtrlerSelect_Menu.gd" type="Script" id=1]
 [ext_resource path="res://Art/game_theme.tres" type="Theme" id=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.0666667, 0.921569, 0.901961, 1 )
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 1, 1, 1, 0 )
+border_blend = true
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
 [node name="CtrlerSelect_Menu" type="ScrollContainer"]
 anchor_right = 1.0
@@ -24,7 +37,7 @@ custom_constants/separation = 20
 
 [node name="CtrlerMatrix" type="HBoxContainer" parent="VBoxContainer"]
 margin_right = 1860.0
-margin_bottom = 940.0
+margin_bottom = 926.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 15
@@ -34,14 +47,14 @@ __meta__ = {
 
 [node name="Controllers" type="PanelContainer" parent="VBoxContainer/CtrlerMatrix"]
 margin_right = 1860.0
-margin_bottom = 940.0
+margin_bottom = 926.0
 size_flags_horizontal = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/CtrlerMatrix/Controllers"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 1853.0
-margin_bottom = 933.0
+margin_bottom = 919.0
 custom_constants/separation = 10
 
 [node name="Label" type="Label" parent="VBoxContainer/CtrlerMatrix/Controllers/VBoxContainer"]
@@ -74,24 +87,40 @@ margin_bottom = 124.0
 alignment = 1
 
 [node name="Buttons" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 960.0
+margin_top = 946.0
 margin_right = 1860.0
 margin_bottom = 1020.0
 size_flags_horizontal = 3
 
-[node name="Cancel" type="Button" parent="VBoxContainer/Buttons"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Buttons"]
 margin_left = 289.0
 margin_right = 639.0
+margin_bottom = 74.0
+size_flags_horizontal = 6
+
+[node name="Cancel" type="Button" parent="VBoxContainer/Buttons/VBoxContainer"]
+margin_right = 350.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 350, 60 )
 size_flags_horizontal = 6
 theme = ExtResource( 2 )
 text = "Cancel"
 
+[node name="CancelProgress" type="ProgressBar" parent="VBoxContainer/Buttons/VBoxContainer"]
+margin_top = 64.0
+margin_right = 350.0
+margin_bottom = 74.0
+rect_min_size = Vector2( 0, 10 )
+size_flags_horizontal = 3
+theme = ExtResource( 2 )
+custom_styles/fg = SubResource( 1 )
+value = 50.0
+percent_visible = false
+
 [node name="Start" type="Button" parent="VBoxContainer/Buttons"]
 margin_left = 1221.0
 margin_right = 1571.0
-margin_bottom = 60.0
+margin_bottom = 74.0
 rect_min_size = Vector2( 350, 60 )
 size_flags_horizontal = 6
 theme = ExtResource( 2 )

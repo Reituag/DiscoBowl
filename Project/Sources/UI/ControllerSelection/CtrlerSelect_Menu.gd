@@ -8,6 +8,10 @@ var ctrl_indic = preload("res://Sources/UI/ControllerSelection/ControllerIndicat
 onready var ctrler_list : VBoxContainer = $VBoxContainer/CtrlerMatrix/Controllers/VBoxContainer/List
 # HBox containing controller list and player selectors
 onready var ctrler_matrix : HBoxContainer = $VBoxContainer/CtrlerMatrix
+# Cancel button
+onready var cancelButton = $VBoxContainer/Buttons/VBoxContainer/Cancel
+# Cancel Progress
+onready var cancelProgress = $VBoxContainer/Buttons/VBoxContainer/CancelProgress
 
 # Matrix of controller indicators
 # Lines are indexed with keyboard and joypad, colums with player.
@@ -29,6 +33,8 @@ var ctrlers_coord = {}
 var player_lists = []
 # Number of connected keyboards
 export var nb_kboards = 1
+
+var isCancelling = false;
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -52,6 +58,8 @@ func _ready():
 		config_ctrler(false, i)
 	
 	Input.connect("joy_connection_changed", self, '_on_joy_connection_changed')
+	cancelButton.connect("pressed", self, '_on_Cancel_pressed')
+	cancelProgress.value = 0
 
 # Fonction allowing to configurate entirely a controller given a device index
 # and a status (keyboard or joypad)
@@ -93,6 +101,15 @@ func delete_ctrler(index):
 		elt.queue_free()
 	ui_matrix.erase(index)
 
+func _process(delta):
+	if isCancelling:
+		cancelProgress.value += 1
+		if cancelProgress.value == cancelProgress.max_value:
+			_on_Cancel_pressed()
+
+func _on_Cancel_pressed():
+	get_tree().change_scene_to(Global.mainMenu)
+
 func _on_joy_connection_changed(device: int, connected: bool):
 	if connected:
 		config_ctrler(false, device)
@@ -117,6 +134,10 @@ func _input(event):
 		var index = get_device_index(event)
 		if index != '':
 			lock_controller(index, false)
+		isCancelling = true
+	elif event.is_action_released("ui_cancel"):
+		cancelProgress.value = 0;
+		isCancelling = false
 
 func get_device_index(event):
 	if event is InputEventKey:
