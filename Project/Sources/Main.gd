@@ -18,7 +18,7 @@ func new_game():
 #	$Character2.start($StartPosition2.position, joyCtrler)
 	
 	var autoCtrler = load("res://Sources/Character/AutoController.tscn").instance()
-	autoCtrler.config("shield")
+	autoCtrler.config("shoot")#("shield")
 	$Character2.start($StartPosition2.position, autoCtrler)
 	
 
