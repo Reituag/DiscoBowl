@@ -1,10 +1,8 @@
-extends Node
+extends AutoController
 # This class allows to auto-define controls for a given joypad
 class_name JoypadCharacterController
 
 var myDevice = -1
-var is_shooting = false
-var shield_action = ''
 
 var aim_dir = Vector2.UP
 var aim_sensibility = 0.6

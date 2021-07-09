@@ -1,9 +1,6 @@
-extends Node
+extends AutoController
 # This class allows to auto-define character controls with the keyboard and mouse
 class_name KeyboardCharacterController
-
-var is_shooting = false
-var shield_action = 'shield_kb'
 
 # Actions handling. This function should be called in _physic_process in the
 #  controlled character
@@ -99,6 +96,7 @@ func config(kb_type = 'azerty'):
 	########################
 	# Shield : Right-click #
 	########################
+	shield_action = 'shield_kb'
 	InputMap.add_action(shield_action)
 	# Right-click
 	var shield_click = InputEventMouseButton.new()

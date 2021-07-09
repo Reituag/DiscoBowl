@@ -9,22 +9,28 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "AutoController",
+"language": "GDScript",
+"path": "res://Sources/Character/AutoController.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Disk",
 "language": "GDScript",
 "path": "res://Sources/Disk/Disk.gd"
 }, {
-"base": "Node",
+"base": "AutoController",
 "class": "JoypadCharacterController",
 "language": "GDScript",
 "path": "res://Sources/Character/JoypadCharacterController.gd"
 }, {
-"base": "Node",
+"base": "AutoController",
 "class": "KeyboardCharacterController",
 "language": "GDScript",
 "path": "res://Sources/Character/KeyboardCharacterController.gd"
 } ]
 _global_script_class_icons={
+"AutoController": "",
 "Disk": "",
 "JoypadCharacterController": "",
 "KeyboardCharacterController": ""

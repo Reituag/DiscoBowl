@@ -13,9 +13,14 @@ func new_game():
 	kbCtrler.config()
 	$Character.start($StartPosition.position, kbCtrler)
 	
-	var joyCtrler = load("res://Sources/Character/JoypadCharacterController.tscn").instance()
-	joyCtrler.config(0) 
-	$Character2.start($StartPosition2.position, joyCtrler)
+#	var joyCtrler = load("res://Sources/Character/JoypadCharacterController.tscn").instance()
+#	joyCtrler.config(0) 
+#	$Character2.start($StartPosition2.position, joyCtrler)
+	
+	var autoCtrler = load("res://Sources/Character/AutoController.tscn").instance()
+	autoCtrler.config("shield")
+	$Character2.start($StartPosition2.position, autoCtrler)
+	
 
 func _process(_delta):
 	if Input.is_action_pressed("ui_cancel"):
