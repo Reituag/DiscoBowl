@@ -33,8 +33,11 @@ func start(pos, ctrler):
 	# Controller definition
 	myController = ctrler
 	add_child(myController)
+	
+	# If a keyboard controller is configured, the mouse cursor is hidden
 	if myController is KeyboardCharacterController:
-		$OriginDiskPop/DiskPop/Reticule.texture = null
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	
 	# Display in scene
 	show()
 
