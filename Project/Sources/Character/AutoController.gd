@@ -22,10 +22,12 @@ func config(string):
 		$Timer.autostart = true
 		$Timer.one_shot = false
 		$Timer.connect("timeout", self, '_on_timeout')
-	InputMap.add_action(shield_action)
-	var shield_click = InputEventKey.new()
-	shield_click.scancode = KEY_BACKSPACE
-	InputMap.action_add_event(shield_action, shield_click)
+	
+	if not InputMap.has_action(shield_action):
+		InputMap.add_action(shield_action)
+		var shield_click = InputEventKey.new()
+		shield_click.scancode = KEY_BACKSPACE
+		InputMap.action_add_event(shield_action, shield_click)
 
 func get_aim_direction() -> Vector2:
 	if autoShoot:

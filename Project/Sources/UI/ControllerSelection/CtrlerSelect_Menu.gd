@@ -101,7 +101,7 @@ func delete_ctrler(index):
 		elt.queue_free()
 	ui_matrix.erase(index)
 
-func _process(delta):
+func _process(_delta):
 	if isCancelling:
 		cancelProgress.value += 1
 		if cancelProgress.value == cancelProgress.max_value:

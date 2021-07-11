@@ -1,23 +1,28 @@
 extends KinematicBody2D
 
-const speed = 400  # How fast the character will move (pixels/sec).
+# General behaviour configuration
+export var speed = 400  # How fast the character will move (pixels/sec).
+export var start_life = 100
+var current_life
 
+# Modular configuration of Disk and Shield
 export (PackedScene) var Disk
 export (PackedScene) var Shield
+# Link with children
 var myDisk   = null
 var myShield = null
 var has_disk = true
 
+# On blocking a disk behaviour variables
 var remaining_speed = Vector2.ZERO
-export var damping_factor = 0.9
-
-export var start_life = 100
-var current_life
+var damping_factor = 0.9
 
 # Movement controller dedicated to this character's movement
 var myController = preload("res://Sources/Character/JoypadCharacterController.tscn")
 
 signal die
+
+
 
 func _ready():
 	hide()
@@ -26,6 +31,11 @@ func _ready():
 	current_life = start_life
 	$LifeBar.max_value = start_life
 	$LifeBar.value = current_life
+	
+	# Copy of the body shape into the FallArea, to ensure same behaviour between
+	# falling and colliding
+	$FallArea.add_child($BodyShape.duplicate())
+	$FallArea.connect("body_entered", self, "_on_FallArea_body_entered")
 
 func start(pos, ctrler):
 	# start position definition
@@ -126,3 +136,7 @@ func _on_CatchArea_body_entered(body):
 		# Dot product : if the disk is moving towards me, it is destroyed
 		if disk_to_me.dot(myDisk.velocity) < 0:
 			catch_disk(body)
+
+
+func _on_FallArea_body_entered(_body):
+	print(name + " fell into the emptyness")

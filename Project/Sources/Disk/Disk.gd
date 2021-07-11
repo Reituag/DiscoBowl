@@ -41,7 +41,7 @@ func _physics_process(delta):
 		else:
 			destroy()
 
-func hit(hitting_body, _remainder, damage_amount):
+func hit(hitting_body, _remainder, _damage_amount):
 	if hitting_body.is_class("Disk"):
 		hitting_body.destroy()
 		destroy()
