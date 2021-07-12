@@ -23,7 +23,7 @@ func get_aim_direction() -> Vector2:
 	return dir.normalized()
 
 # Actions and events configuration
-func config(kb_type = 'azerty'):
+func config(kb_type = 'azerty', _direction: Vector2 = Vector2.ZERO):
 	var keymap = {	'arrows'	: [KEY_UP, KEY_LEFT, KEY_DOWN, KEY_RIGHT],
 					'azerty'	: [KEY_Z , KEY_Q   , KEY_S   , KEY_D    ],
 					'qwerty'	: [KEY_W , KEY_A   , KEY_S   , KEY_D    ]}

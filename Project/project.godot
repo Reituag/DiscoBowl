@@ -28,12 +28,18 @@ _global_script_classes=[ {
 "class": "KeyboardCharacterController",
 "language": "GDScript",
 "path": "res://Sources/Character/KeyboardCharacterController.gd"
+}, {
+"base": "Node",
+"class": "Map",
+"language": "GDScript",
+"path": "res://Sources/Maps/Map.gd"
 } ]
 _global_script_class_icons={
 "AutoController": "",
 "Disk": "",
 "JoypadCharacterController": "",
-"KeyboardCharacterController": ""
+"KeyboardCharacterController": "",
+"Map": ""
 }
 
 [application]

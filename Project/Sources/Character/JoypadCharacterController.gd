@@ -15,7 +15,7 @@ var mv_left_n
 var mv_right_n
 
 # Actions and events configuration
-func config(deviceIndex: int):
+func config(deviceIndex: int, _direction: Vector2 = Vector2.ZERO):
 	myDevice = deviceIndex
 	
 	##########################

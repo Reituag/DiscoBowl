@@ -6,22 +6,25 @@ var autoShield = false
 var is_shooting = false
 var shield_action = "auto_shield"
 var had_disk = false
+var aim_direction : Vector2
 
-func config(string):
-	if "shoot" in string:
+func config(mode, direction : Vector2 = Vector2.LEFT):
+	if "shoot" in mode:
 #		print("AutoShoot activated")
 		autoShoot = true
 		$Timer.wait_time = 0.2
 		$Timer.autostart = false
 		$Timer.one_shot = true
 		$Timer.connect("timeout", self, '_on_timeout')
-	elif "shield" in string:
+	elif "shield" in mode:
 #		print("AutoShield activated")
 		autoShield = true
 		$Timer.wait_time = 2.5
 		$Timer.autostart = true
 		$Timer.one_shot = false
 		$Timer.connect("timeout", self, '_on_timeout')
+	
+	aim_direction = direction
 	
 	if not InputMap.has_action(shield_action):
 		InputMap.add_action(shield_action)
@@ -38,7 +41,7 @@ func get_aim_direction() -> Vector2:
 		elif not had_disk and get_parent().has_disk:
 			$Timer.start()
 		had_disk = get_parent().has_disk
-	return Vector2.LEFT
+	return aim_direction
 
 func get_input() -> Vector2:
 	return Vector2.ZERO

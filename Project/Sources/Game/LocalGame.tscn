@@ -13,32 +13,19 @@ current = true
 
 [node name="Arena" parent="." instance=ExtResource( 2 )]
 
-[node name="Start_L" type="Node2D" parent="."]
+[node name="Characters" type="Node" parent="."]
+
+[node name="Character" parent="Characters" instance=ExtResource( 3 )]
 position = Vector2( 596.224, 547.194 )
 
-[node name="Start_R" type="Node2D" parent="."]
+[node name="Character2" parent="Characters" instance=ExtResource( 3 )]
 position = Vector2( 1328.67, 547.194 )
 
-[node name="Start_D" type="Node2D" parent="."]
+[node name="Character3" parent="Characters" instance=ExtResource( 3 )]
 position = Vector2( 958.672, 890.764 )
 
-[node name="Start_UL" type="Node2D" parent="."]
+[node name="Character4" parent="Characters" instance=ExtResource( 3 )]
 position = Vector2( 798.213, 213.062 )
 
-[node name="Start_UR" type="Node2D" parent="."]
-position = Vector2( 1134.23, 213.062 )
-
-[node name="Character" parent="." instance=ExtResource( 3 )]
-position = Vector2( 596.224, 547.194 )
-
-[node name="Character2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 1328.67, 547.194 )
-
-[node name="Character3" parent="." instance=ExtResource( 3 )]
-position = Vector2( 958.672, 890.764 )
-
-[node name="Character4" parent="." instance=ExtResource( 3 )]
-position = Vector2( 798.213, 213.062 )
-
-[node name="Character5" parent="." instance=ExtResource( 3 )]
+[node name="Character5" parent="Characters" instance=ExtResource( 3 )]
 position = Vector2( 1134.23, 213.062 )
