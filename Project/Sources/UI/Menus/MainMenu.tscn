@@ -79,7 +79,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ButtonMulti" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="ButtonOnline" type="Button" parent="VBoxContainer/HBoxContainer"]
 margin_left = 1141.0
 margin_right = 1741.0
 margin_bottom = 80.0
@@ -89,13 +89,12 @@ rect_min_size = Vector2( 600, 80 )
 size_flags_horizontal = 6
 size_flags_vertical = 6
 theme = ExtResource( 1 )
-text = " Multiplayer Game "
+text = "Online Game "
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="PopupLocal" type="PopupDialog" parent="."]
-visible = true
 anchor_left = 0.15
 anchor_top = 0.1
 anchor_right = 0.85
@@ -184,7 +183,23 @@ size_flags_vertical = 4
 theme = ExtResource( 1 )
 text = "Cancel"
 
+[node name="PopupOnline" type="AcceptDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 500, 150 )
+theme = ExtResource( 1 )
+window_title = "Warning"
+dialog_text = "Not available yet"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/ButtonLocal" to="." method="_on_ButtonLocal_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/ButtonOnline" to="." method="_on_ButtonOnline_pressed"]
 [connection signal="value_changed" from="PopupLocal/VBoxContainer/LocalSlider" to="." method="_on_HSlider_value_changed"]
 [connection signal="text_changed" from="PopupLocal/VBoxContainer/LocalNbPlayers" to="." method="_on_LineEdit_text_changed"]
 [connection signal="pressed" from="PopupLocal/VBoxContainer/LocalStart" to="." method="_on_LocalStart_pressed"]

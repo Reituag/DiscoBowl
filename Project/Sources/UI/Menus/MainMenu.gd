@@ -6,6 +6,9 @@ var CharSelectMenu = preload("res://Sources/UI/ControllerSelection/CtrlerSelect_
 onready var localPopup = $PopupLocal
 onready var nbLocalPlayerTxt = $PopupLocal/VBoxContainer/LocalNbPlayers
 onready var nbLocalPlayerSlider = $PopupLocal/VBoxContainer/LocalSlider
+
+onready var onlinePopup = $PopupOnline
+
 var ok_str = ""
 
 ## Scene configuration ##
@@ -44,3 +47,7 @@ func _on_HSlider_value_changed(value):
 
 func _on_LocalStart_pressed():
 	_create_local_game()
+
+
+func _on_ButtonOnline_pressed():
+	onlinePopup.popup()
