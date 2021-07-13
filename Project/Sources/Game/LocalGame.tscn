@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Sources/Game/LocalGame.gd" type="Script" id=1]
 [ext_resource path="res://Sources/Maps/Arena_5Players.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Sources/Character/Character.tscn" type="PackedScene" id=3]
 
 [node name="Game" type="Node"]
 script = ExtResource( 1 )
@@ -12,20 +11,3 @@ offset = Vector2( 960, 540 )
 current = true
 
 [node name="Arena" parent="." instance=ExtResource( 2 )]
-
-[node name="Characters" type="Node" parent="."]
-
-[node name="Character" parent="Characters" instance=ExtResource( 3 )]
-position = Vector2( 596.224, 547.194 )
-
-[node name="Character2" parent="Characters" instance=ExtResource( 3 )]
-position = Vector2( 1328.67, 547.194 )
-
-[node name="Character3" parent="Characters" instance=ExtResource( 3 )]
-position = Vector2( 958.672, 890.764 )
-
-[node name="Character4" parent="Characters" instance=ExtResource( 3 )]
-position = Vector2( 798.213, 213.062 )
-
-[node name="Character5" parent="Characters" instance=ExtResource( 3 )]
-position = Vector2( 1134.23, 213.062 )
