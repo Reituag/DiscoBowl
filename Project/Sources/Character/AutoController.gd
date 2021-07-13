@@ -26,20 +26,23 @@ func config(mode, direction : Vector2 = Vector2.LEFT):
 		$Timer.one_shot = true
 		# warning-ignore:return_value_discarded
 		$Timer.connect("timeout", self, '_on_timeout')
-	elif "shield" in mode:
-		# Auto Shield configuration:
-		# Each 2.5s, shielding status is changed 
-#		print("AutoShield activated")
-		# Addition of an action to manage shield. If various autoControllers
-		# are added, the action is added only once. (avoids errors)
-		if not InputMap.has_action(shield_action):
+	
+	# Addition of an action to manage shield. If various autoControllers
+	# are added, the action is added only once. (avoids errors)
+	# The action is always added, in order to be processed without error even if
+	# only shooting is activated
+	if not InputMap.has_action(shield_action):
 #			print('Adding action ' + shield_action)
-			# Action configuration
-			InputMap.add_action(shield_action)
-			var shield_click = InputEventKey.new()
-			shield_click.scancode = KEY_BACKSPACE
-			InputMap.action_add_event(shield_action, shield_click)
-			
+		# Action configuration
+		InputMap.add_action(shield_action)
+		var shield_click = InputEventKey.new()
+		shield_click.scancode = KEY_BACKSPACE
+		InputMap.action_add_event(shield_action, shield_click)
+		
+			# Auto Shield configuration:
+			# Each 2.5s, shielding status is changed 
+		if "shield" in mode:
+	#		print("AutoShield activated")
 			# Timer configuration
 			_autoShield = true
 			$Timer.wait_time = 2.5
@@ -47,6 +50,7 @@ func config(mode, direction : Vector2 = Vector2.LEFT):
 			$Timer.one_shot = false
 			# warning-ignore:return_value_discarded
 			$Timer.connect("timeout", self, '_on_timeout')
+		
 	# Memorization of the aiming direction
 	_aimDirection = direction
 
