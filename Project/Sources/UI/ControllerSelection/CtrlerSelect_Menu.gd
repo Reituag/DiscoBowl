@@ -12,6 +12,8 @@ onready var players : HBoxContainer = $CtrlerMatrix/Players
 onready var cancelButton = $Buttons/VBoxContainer/Cancel
 # Cancel Progress
 onready var cancelProgress = $Buttons/VBoxContainer/CancelProgress
+# Start button
+onready var startButton = $Buttons/Start
 
 # Matrix of controller indicators
 # Lines are indexed with keyboard and joypad, colums with player.
@@ -36,15 +38,42 @@ export var nb_kboards = 1
 
 var isCancelling = false;
 
-# Called when the node enters the scene tree for the first time.
+############################
+## MAIN FUNCTIONS SECTION ##
+############################
 func _ready():
+	_init_controllers()
+	
+	# Cancel logic connection
+	Input.connect("joy_connection_changed", self, '_on_joy_connection_changed')
+	cancelButton.connect("pressed", self, '_on_Cancel_pressed')
+	cancelProgress.value = 0
+	
+	# Start logic connection
+	startButton.connect("pressed", self, '_on_Start_pressed')
+
+func _input(event):
+	_handle_ui_controller(event)
+
+func _process(_delta):
+	if isCancelling:
+		cancelProgress.value += 1
+		if cancelProgress.value == cancelProgress.max_value:
+			_on_Cancel_pressed()
+
+
+######################################
+## CONTROLLER CONFIGURATION SECTION ##
+######################################
+func _init_controllers():
+	var player_ids = ['Player 1', 'Player_2', 'Player3', 'Player-4', 'Player5']
 	var nb_ctrlers = Input.get_connected_joypads().size()
 	
 	# Menu configuration given the number of players
 	for i in Global.nb_players:
 		# Addition of a character_selection widget
 		var player_select = playerSelect.instance()
-		player_select.player_name = "Player {n}".format({'n':i+1})
+		player_select.player_name = player_ids[i]
 		players.add_child(player_select)
 		# Memorization of its controller list
 		player_lists.append(player_select)
@@ -56,10 +85,6 @@ func _ready():
 	# Joypads additions
 	for i in range(nb_kboards, nb_ctrlers+nb_kboards):
 		config_ctrler(false, i)
-	
-	Input.connect("joy_connection_changed", self, '_on_joy_connection_changed')
-	cancelButton.connect("pressed", self, '_on_Cancel_pressed')
-	cancelProgress.value = 0
 
 # Fonction allowing to configurate entirely a controller given a device index
 # and a status (keyboard or joypad)
@@ -101,23 +126,10 @@ func delete_ctrler(index):
 		elt.queue_free()
 	ui_matrix.erase(index)
 
-func _process(_delta):
-	if isCancelling:
-		cancelProgress.value += 1
-		if cancelProgress.value == cancelProgress.max_value:
-			_on_Cancel_pressed()
-
-func _on_Cancel_pressed():
-	get_tree().change_scene_to(Global.mainMenu)
-
-func _on_joy_connection_changed(device: int, connected: bool):
-	if connected:
-		config_ctrler(false, device)
-	else:
-		delete_ctrler('j{0}'.format([device]))
-
-
-func _input(event):
+####################################
+## UI CONTROLLER HANDLING SECTION ##
+####################################
+func _handle_ui_controller(event):
 	if event.is_action_pressed("ui_right"):
 		var index = get_device_index(event)
 		if index != '':
@@ -161,3 +173,49 @@ func lock_controller(index, is_locked):
 	ctrlers_coord[index]['locked'] = is_locked
 #	if ctrlers_coord[index]['col'] != 0:
 	ui_matrix[index][ctrlers_coord[index]['col']].is_locked = is_locked
+
+
+############################
+## EVENT HANDLING SECTION ##
+############################
+func _on_Cancel_pressed():
+	get_tree().change_scene_to(Global.mainMenu)
+
+func _on_joy_connection_changed(device: int, connected: bool):
+	if connected:
+		config_ctrler(false, device)
+	else:
+		delete_ctrler('j{0}'.format([device]))
+
+func _on_Start_pressed():
+	# Initialize structured data to transfer to local game
+	var game_data = {'players':[]}
+	
+	# for each player
+	for i in range(Global.nb_players):
+		# Initialize player data
+		var player_data = {'id':'Gurlu',
+							'controller':'none'}
+		# Get player id
+		player_data['id'] = player_lists[i].player_name
+		# Get player controller
+		for ctrl in ctrlers_coord.keys():
+			# Here, the +1 is necessary because columns are counted from 0 
+			# to nb_players+1, 0 being no player, but players are counted
+			# from 0 too. An offset must be added
+			if ctrlers_coord[ctrl]['col'] == i+1:
+				player_data['controller'] = ctrl
+		
+		# Add data to dictionnary
+		game_data['players'].append(player_data)
+		
+#	print(ctrlers_coord)
+#	print(game_data)
+	
+	# instanciate new scene
+	var game = load("res://Sources/Game/LocalGame.tscn").instance()
+	# pass information to new scene
+	game.scene_parameters = game_data
+	# change scene
+	get_parent().add_child(game)
+	queue_free()

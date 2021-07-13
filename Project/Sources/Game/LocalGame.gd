@@ -3,8 +3,21 @@ extends Node
 var autoCtrlr = preload("res://Sources/Character/AutoController.tscn")
 
 var scene_parameters : Dictionary = {
-	"players" : { 'id'        : '',
-				  'character' : null}
+	"players" : [{ 'id'         : 'Player1',
+					'controller': 'autoshield',
+					'character' : null},
+				{ 'id'          : 'Player2',
+					'controller': 'k0',
+					'character' : null},
+				{ 'id'          : 'Player3',
+					'controller': 'autoshield',
+					'character' : null},
+				{ 'id'         : 'Player4',
+					'controller': 'autoshield',
+					'character' : null},
+				{ 'id'         : 'Player5',
+					'controller': 'autoshoot',
+					'character' : null} ]
 }
 
 # Called when the node enters the scene tree for the first time.
@@ -12,35 +25,28 @@ func _ready():
 	#############
 	# TEST CODE #
 	#############
-	for i in range(1,6):
-		scene_parameters["players"]['id'] = "player{n}".format({'n':i})
-		if i != 2:
+	for i in range(5):
+		var player_data = { 'id'        : 'Gurlu',
+							'controller': 'none',
+							'character' : null}
+		player_data['id'] = "player{n}".format({'n':i})
+		if i != 1:
 			var auto = autoCtrlr.instance()
 			auto.config("shield")
-			$Characters.get_child(i-1).start($Arena.startPoints[i-1], auto)
+			$Characters.get_child(i).start($Arena.startPoints[i], auto)
+			player_data['controller'] = auto
 		else :
 			var kbCtrler = load("res://Sources/Character/KeyboardCharacterController.tscn").instance()
 			kbCtrler.config() 
-			$Characters.get_child(i-1).start($Arena.startPoints[i-1], kbCtrler)
-		scene_parameters["players"]["character"] = $Characters.get_child(i-1)
+			$Characters.get_child(i).start($Arena.startPoints[i], kbCtrler)
+			player_data['controller'] = kbCtrler
+		
+		if scene_parameters.size() > i:
+			scene_parameters["players"][i] = player_data
+		else:
+			scene_parameters['players'].append(player_data)
+		scene_parameters["players"][i]["character"] = $Characters.get_child(i)
 	#############
-#	var auto1 = autoCtrlr.instance()
-#	auto1.config("shield")#("shoot")
-#	$Character.start($Start_L.position, auto1)
-#	var auto2 = autoCtrlr.instance()
-#	auto2.config("shield")#("shoot")
-#	$Character2.start($Start_R.position, auto2)
-#	var auto4 = autoCtrlr.instance()
-#	auto4.config("shield")#("shoot")
-#	$Character4.start($Start_UL.position, auto4)
-#	var auto5 = autoCtrlr.instance()
-#	auto5.config("shield")#("shoot")
-#	$Character5.start($Start_UR.position, auto5)
-#
-#
-#	var kbCtrler = load("res://Sources/Character/KeyboardCharacterController.tscn").instance()
-#	kbCtrler.config()
-#	$Character3.start($Start_D.position, kbCtrler)
 
 
 func _process(_delta):
