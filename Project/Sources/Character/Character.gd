@@ -18,7 +18,7 @@ var remaining_speed = Vector2.ZERO
 var damping_factor = 0.9
 
 # Movement controller dedicated to this character's movement
-var myController = preload("res://Sources/Character/JoypadCharacterController.tscn")
+var myController = AutoController.new()
 
 signal die
 

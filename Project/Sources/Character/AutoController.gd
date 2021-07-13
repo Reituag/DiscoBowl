@@ -4,6 +4,7 @@ class_name AutoController
 # Behaviour management variables
 var _autoShoot = false
 var _autoShield = false
+var _timer : Timer
 
 # Configurable aiming direction
 var _aimDirection : Vector2
@@ -16,16 +17,19 @@ var shield_action = "auto_shield"
 var _hadDisk = false
 
 func config(mode, direction : Vector2 = Vector2.LEFT):
+	# timer instanciation
+	_timer = Timer.new()
+	add_child(_timer)
 	if "shoot" in mode:
 		# _autoShoot configuration:
 		# Timer of 0.2s, started when the character has its disk
 #		print("AutoShoot activated")
 		_autoShoot = true
-		$Timer.wait_time = 0.2
-		$Timer.autostart = false
-		$Timer.one_shot = true
+		_timer.wait_time = 0.2
+		_timer.autostart = false
+		_timer.one_shot = true
 		# warning-ignore:return_value_discarded
-		$Timer.connect("timeout", self, '_on_timeout')
+		_timer.connect("timeout", self, '_on_timeout')
 	
 	# Addition of an action to manage shield. If various autoControllers
 	# are added, the action is added only once. (avoids errors)
@@ -45,11 +49,11 @@ func config(mode, direction : Vector2 = Vector2.LEFT):
 	#		print("AutoShield activated")
 			# Timer configuration
 			_autoShield = true
-			$Timer.wait_time = 2.5
-			$Timer.autostart = true
-			$Timer.one_shot = false
+			_timer.wait_time = 2.5
+			_timer.autostart = true
+			_timer.one_shot = false
 			# warning-ignore:return_value_discarded
-			$Timer.connect("timeout", self, '_on_timeout')
+			_timer.connect("timeout", self, '_on_timeout')
 		
 	# Memorization of the aiming direction
 	_aimDirection = direction
@@ -72,7 +76,7 @@ func _compute_shooting():
 			is_shooting = false
 		elif not _hadDisk and get_parent().has_disk:
 			# When catching the disk, timer is set, shoot at timeout
-			$Timer.start()
+			_timer.start()
 		# Memorization of previous status
 		_hadDisk = get_parent().has_disk
 

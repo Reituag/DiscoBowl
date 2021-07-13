@@ -9,15 +9,15 @@ func _ready():
 #	Input.set_custom_mouse_cursor(reticule, 0, Vector2(0.1, 0.1))
 
 func new_game():
-	var kbCtrler = load("res://Sources/Character/KeyboardCharacterController.tscn").instance()
+	var kbCtrler = KeyboardCharacterController.new()#load("res://Sources/Character/KeyboardCharacterController.tscn").instance()
 	kbCtrler.config()
 	$Character.start($StartPosition.position, kbCtrler)
 	
-#	var joyCtrler = load("res://Sources/Character/JoypadCharacterController.tscn").instance()
+#	var joyCtrler = 
 #	joyCtrler.config(0) 
 #	$Character2.start($StartPosition2.position, joyCtrler)
 	
-	var autoCtrler = load("res://Sources/Character/AutoController.tscn").instance()
+	var autoCtrler = AutoController.new()
 	autoCtrler.config("shoot")#("shield")
 	$Character2.start($StartPosition2.position, autoCtrler)
 	

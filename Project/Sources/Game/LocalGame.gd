@@ -1,7 +1,5 @@
 extends Node
 
-var autoCtrlr = preload("res://Sources/Character/AutoController.tscn")
-
 var scene_parameters : Dictionary = {
 	"players" : [{ 'id'         : 'Player1',
 					'controller': 'autoshield',
@@ -16,7 +14,7 @@ var scene_parameters : Dictionary = {
 					'controller': 'autoshield',
 					'character' : null},
 				{ 'id'         : 'Player5',
-					'controller': 'autoshoot',
+					'controller': 'j0',
 					'character' : null} ]
 }
 
@@ -31,12 +29,12 @@ func _ready():
 							'character' : null}
 		player_data['id'] = "player{n}".format({'n':i})
 		if i != 1:
-			var auto = autoCtrlr.instance()
+			var auto = AutoController.new()
 			auto.config("shield")
 			$Characters.get_child(i).start($Arena.startPoints[i], auto)
 			player_data['controller'] = auto
 		else :
-			var kbCtrler = load("res://Sources/Character/KeyboardCharacterController.tscn").instance()
+			var kbCtrler = KeyboardCharacterController.new()
 			kbCtrler.config() 
 			$Characters.get_child(i).start($Arena.startPoints[i], kbCtrler)
 			player_data['controller'] = kbCtrler
