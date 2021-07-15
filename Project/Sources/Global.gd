@@ -1,7 +1,7 @@
 extends Node
 
 # Number of players
-const max_local_players = 4;
+const max_local_players = 5;
 var nb_players = max_local_players;
 
 # MainMenu preload

@@ -64,6 +64,16 @@ func _ready():
 			print("Only {2} start points: n°{0}/{1} not added".format( 
 				[index, players.size(), arena.startPoints.size()]))
 
-func _process(_delta):
-	if Input.is_action_pressed("ui_cancel"):
-		get_tree().quit()
+func _input(event):
+	# Pause game on associated event
+	if event.is_action_pressed("pause_game"):
+		# Verifies emitting device: unconnected devices can't pause the game
+		if event is InputEventJoypadButton or event is InputEventKey:
+			var device = ''
+			if event is InputEventJoypadButton:
+				device = "j" + str(event.device)
+			elif event is InputEventKey:
+				device = "k" + str(event.device)
+			for p in scene_parameters['players']:
+				if p['controller'] == device:
+					get_tree().quit() # TODO: change with pause menu

@@ -1,19 +1,30 @@
 extends VBoxContainer
 
+enum states {CANCELLING, STARTING, NONE}
+
 # Scenes Import
-var playerSelect = preload("res://Sources/UI/ControllerSelection/PlayerSelector.tscn")
-var ctrl_indic = preload("res://Sources/UI/ControllerSelection/ControllerIndicator.tscn")
+var playerSelect = \
+	preload("res://Sources/UI/ControllerSelection/PlayerSelector.tscn")
+var ctrl_indic = \
+	preload("res://Sources/UI/ControllerSelection/ControllerIndicator.tscn")
 
 # VBox of the controller list
-onready var ctrler_list : VBoxContainer = $CtrlerMatrix/Controllers/VBoxContainer/List
+onready var ctrler_list : VBoxContainer = \
+	$CtrlerMatrix/Controllers/VBoxContainer/List
 # HBox containing player selectors
 onready var players : HBoxContainer = $CtrlerMatrix/Players
+
 # Cancel button
-onready var cancelButton = $Buttons/VBoxContainer/Cancel
+onready var cancelButton = $Buttons/CancelWidget/Cancel
 # Cancel Progress
-onready var cancelProgress = $Buttons/VBoxContainer/CancelProgress
+onready var cancelProgress = $Buttons/CancelWidget/CancelProgress
 # Start button
-onready var startButton = $Buttons/Start
+onready var startButton = $Buttons/StartWidget/Start
+# Start progress
+onready var startProgress = $Buttons/StartWidget/StartProgress
+
+var bt_status = states.NONE
+
 
 # Matrix of controller indicators
 # Lines are indexed with keyboard and joypad, colums with player.
@@ -36,30 +47,36 @@ var player_lists = []
 # Number of connected keyboards
 export var nb_kboards = 1
 
-var isCancelling = false;
-
 ############################
 ## MAIN FUNCTIONS SECTION ##
 ############################
 func _ready():
 	_init_controllers()
 	
-	# Cancel logic connection
+	# warning-ignore:return_value_discarded
 	Input.connect("joy_connection_changed", self, '_on_joy_connection_changed')
+	
+	# Cancel logic connection
 	cancelButton.connect("pressed", self, '_on_Cancel_pressed')
 	cancelProgress.value = 0
 	
 	# Start logic connection
 	startButton.connect("pressed", self, '_on_Start_pressed')
+	startProgress.value = 0
 
 func _input(event):
 	_handle_ui_controller(event)
 
 func _process(_delta):
-	if isCancelling:
+	if bt_status == states.CANCELLING:
 		cancelProgress.value += 1
 		if cancelProgress.value == cancelProgress.max_value:
 			_on_Cancel_pressed()
+	elif bt_status == states.STARTING:
+		startProgress.value +=1
+		if startProgress.value == cancelProgress.max_value:
+			_on_Start_pressed()
+	
 
 
 ######################################
@@ -67,7 +84,6 @@ func _process(_delta):
 ######################################
 func _init_controllers():
 	var player_ids = ['Player 1', 'Player_2', 'Player3', 'Player-4', 'Player5']
-	var nb_ctrlers = Input.get_connected_joypads().size()
 	
 	# Menu configuration given the number of players
 	for i in Global.nb_players:
@@ -83,7 +99,7 @@ func _init_controllers():
 		config_ctrler(true, i)
 	
 	# Joypads additions
-	for i in range(nb_kboards, nb_ctrlers+nb_kboards):
+	for i in range(nb_kboards):
 		config_ctrler(false, i)
 
 # Fonction allowing to configurate entirely a controller given a device index
@@ -142,14 +158,15 @@ func _handle_ui_controller(event):
 		var index = get_device_index(event)
 		if index != '':
 			lock_controller(index, true)
+		beginAction(states.STARTING)
 	elif event.is_action_pressed("ui_cancel"):
 		var index = get_device_index(event)
 		if index != '':
 			lock_controller(index, false)
-		isCancelling = true
-	elif event.is_action_released("ui_cancel"):
-		cancelProgress.value = 0;
-		isCancelling = false
+		beginAction(states.CANCELLING)
+	elif event.is_action_released("ui_cancel") \
+		or event.is_action_released("ui_accept"):
+		stopAction()
 
 func get_device_index(event):
 	if event is InputEventKey:
@@ -179,6 +196,8 @@ func lock_controller(index, is_locked):
 ## EVENT HANDLING SECTION ##
 ############################
 func _on_Cancel_pressed():
+	stopAction()
+	# warning-ignore:return_value_discarded
 	get_tree().change_scene_to(Global.mainMenu)
 
 func _on_joy_connection_changed(device: int, connected: bool):
@@ -190,6 +209,10 @@ func _on_joy_connection_changed(device: int, connected: bool):
 func _on_Start_pressed():
 	# Initialize structured data to transfer to local game
 	var game_data = {'players':[]}
+	
+	# Boolean used to control if at least one controller is connected before
+	#  starting the game
+	var noController = true
 	
 	# for each player
 	for i in range(Global.nb_players):
@@ -206,11 +229,20 @@ func _on_Start_pressed():
 			if ctrlers_coord[ctrl]['col'] == i+1:
 				player_data['controller'] = ctrl
 		
+		# If at least one controller is configured, the game can start
+		if noController and player_data['controller'] != "none":
+			noController = false
+		
 		# Add data to dictionnary
 		game_data['players'].append(player_data)
 		
 #	print(ctrlers_coord)
 #	print(game_data)
+	
+	if noController:
+		print("ERROR: No controller connected. Return to Main Menu")
+		get_tree().change_scene_to(Global.mainMenu)
+		return
 	
 	# instanciate new scene
 	var game = load("res://Sources/Game/LocalGame.tscn").instance()
@@ -219,3 +251,18 @@ func _on_Start_pressed():
 	# change scene
 	get_parent().add_child(game)
 	queue_free()
+
+###############################
+## STATUS MANAGEMENT SECTION ##
+###############################
+func _resetProgress():
+	startProgress.value = 0
+	cancelProgress.value = 0
+	
+func beginAction(state):
+	_resetProgress()
+	bt_status = state
+
+func stopAction():
+	_resetProgress()
+	bt_status = states.NONE
