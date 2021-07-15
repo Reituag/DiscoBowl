@@ -20,6 +20,10 @@ var damping_factor = 0.9
 # Movement controller dedicated to this character's movement
 var myController = AutoController.new()
 
+# Player name
+var myName = "defaultName" setget set_name
+onready var labelName = $NameContainer/myName
+
 signal die
 
 
@@ -51,6 +55,10 @@ func start(pos, ctrler):
 	# Display in scene
 	show()
 
+func set_name(new_name):
+	myName = new_name
+	labelName.text = new_name
+
 func _physics_process(_delta):
 	#######################
 	# Movement management #
@@ -78,7 +86,16 @@ func _physics_process(_delta):
 	# Get aiming direction
 	var aim_direction = myController.get_aim_direction()
 	var disk_pop_position = $OriginDiskPop/DiskPop.global_position - global_position
-	$OriginDiskPop.rotate(disk_pop_position.angle_to(aim_direction))
+	var rotation_angle = disk_pop_position.angle_to(aim_direction)
+	# Rotation limitation in ]-pi; +pi]
+	if $OriginDiskPop.rotation + rotation_angle > PI:
+#		print("oldval: {0}, newval: {1}".format(
+#			[$OriginDiskPop.rotation + rotation_angle, 
+#			$OriginDiskPop.rotation + rotation_angle -PI ]))
+		rotation_angle -= 2*PI 
+	elif $OriginDiskPop.rotation + rotation_angle < -PI:
+		rotation_angle += 2*PI
+	$OriginDiskPop.rotate(rotation_angle)
 	
 	if myController.is_shooting and has_disk and myShield == null:
 		# Disk creation
@@ -104,7 +121,29 @@ func _physics_process(_delta):
 		myShield.queue_free()
 		$OriginDiskPop/DiskPop/Reticule.show()
 		myShield = null
+	
+	#################
+	# UI management #
+	#################
+#	if myController is JoypadCharacterController:
+#		print(String($OriginDiskPop.rotation) + " / " + String($NameContainer.rect_position.y))
+	if abs($OriginDiskPop.rotation_degrees) < 45 && $NameContainer.rect_position.y > 0:
+#		print("Time: {1}# Angle: {0}".\
+#			format([$OriginDiskPop.rotation_degrees,OS.get_time()]))
+		$NameContainer.set_position(Vector2(0,-50))
+	elif abs($OriginDiskPop.rotation_degrees) > 50 && $NameContainer.rect_position.y < 0:
+#		print("Time: {1}# Angle: {0}".\
+#			format([$OriginDiskPop.rotation_degrees,OS.get_time()]))
+		$NameContainer.set_position(Vector2(0,50))
+	elif abs($OriginDiskPop.rotation_degrees) > 360:
+		print("WARNING: Aiming rotation on {name} over 360. Value: {val}"\
+			.format({"name":myName, "val":$OriginDiskPop.rotation_degrees}))
 
+###########################
+## DISK HANDLING SECTION ##
+###########################
+
+# Function called by any hitting object (disk)
 func hit(hitting_body, _remainder, damage_amount):
 	if hitting_body == myDisk:
 		catch_disk(hitting_body)
@@ -138,5 +177,9 @@ func _on_CatchArea_body_entered(body):
 			catch_disk(body)
 
 
+###############################
+## PLATFORM HANDLING SECTION ##
+###############################
+
 func _on_FallArea_body_entered(_body):
-	print(name + " fell into the emptyness")
+	print(myName + " fell into the emptyness")

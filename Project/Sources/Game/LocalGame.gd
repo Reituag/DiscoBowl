@@ -34,6 +34,9 @@ func _ready():
 				load("res://Sources/Character/Character.tscn").instance()
 			add_child(character)
 			
+			# Setting character name
+			character.set_name(players[index]['id'])
+			
 			# Controller instanciation & configuration
 			var controller
 			if 'auto' in players[index]['controller']:
