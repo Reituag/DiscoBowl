@@ -19,6 +19,9 @@ func _ready():
 	nbLocalPlayerSlider.tick_count = Global.max_local_players
 	for i in range(1,Global.max_local_players+1):
 		ok_str += String(i) + "_"
+	
+	# Set focus to allow joypad management
+	$VBoxContainer/HBoxContainer/ButtonLocal.grab_focus()
 
 ## Specific methods ##
 func _create_local_game():
@@ -49,6 +52,8 @@ func _on_HSlider_value_changed(value):
 func _on_LocalStart_pressed():
 	_create_local_game()
 
-
 func _on_ButtonOnline_pressed():
 	onlinePopup.popup()
+
+func _on_QuitButton_pressed():
+	get_tree().quit()

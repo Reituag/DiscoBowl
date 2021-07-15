@@ -19,33 +19,26 @@ __meta__ = {
 }
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
-margin_left = 616.0
-margin_top = 155.0
-margin_right = 1304.0
-margin_bottom = 383.0
+margin_left = 610.0
+margin_top = 133.0
+margin_right = 1310.0
+margin_bottom = 363.0
 grow_horizontal = 2
 grow_vertical = 2
+rect_min_size = Vector2( 700, 230 )
 size_flags_horizontal = 6
 size_flags_vertical = 6
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/PanelContainer"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 681.0
-margin_bottom = 221.0
-custom_constants/margin_right = 150
-custom_constants/margin_top = 50
-custom_constants/margin_left = 150
-custom_constants/margin_bottom = 50
-
-[node name="Label" type="Label" parent="VBoxContainer/PanelContainer/MarginContainer"]
-margin_left = 150.0
-margin_top = 50.0
-margin_right = 524.0
-margin_bottom = 164.0
+[node name="Label" type="Label" parent="VBoxContainer/PanelContainer"]
+margin_left = 160.0
+margin_top = 57.0
+margin_right = 540.0
+margin_bottom = 172.0
+rect_min_size = Vector2( 380, 115 )
+size_flags_horizontal = 4
 theme = ExtResource( 1 )
 text = "Welcome to the
 
@@ -54,9 +47,9 @@ align = 1
 valign = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 771.0
+margin_top = 708.0
 margin_right = 1920.0
-margin_bottom = 851.0
+margin_bottom = 788.0
 size_flags_horizontal = 7
 size_flags_vertical = 6
 alignment = 1
@@ -71,6 +64,10 @@ margin_bottom = 80.0
 grow_horizontal = 2
 grow_vertical = 2
 rect_min_size = Vector2( 600, 80 )
+focus_neighbour_right = NodePath("../ButtonOnline")
+focus_neighbour_bottom = NodePath("../../QuitButton")
+focus_next = NodePath("../ButtonOnline")
+focus_previous = NodePath("../../QuitButton")
 size_flags_horizontal = 6
 size_flags_vertical = 6
 theme = ExtResource( 1 )
@@ -86,6 +83,10 @@ margin_bottom = 80.0
 grow_horizontal = 2
 grow_vertical = 2
 rect_min_size = Vector2( 600, 80 )
+focus_neighbour_left = NodePath("../ButtonLocal")
+focus_neighbour_bottom = NodePath("../../QuitButton")
+focus_next = NodePath("../../QuitButton")
+focus_previous = NodePath("../ButtonLocal")
 size_flags_horizontal = 6
 size_flags_vertical = 6
 theme = ExtResource( 1 )
@@ -93,6 +94,21 @@ text = "Online Game "
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="QuitButton" type="Button" parent="VBoxContainer"]
+margin_left = 810.0
+margin_top = 1000.0
+margin_right = 1110.0
+margin_bottom = 1080.0
+rect_min_size = Vector2( 300, 80 )
+focus_neighbour_left = NodePath("../HBoxContainer/ButtonLocal")
+focus_neighbour_right = NodePath("../HBoxContainer/ButtonOnline")
+focus_next = NodePath("../HBoxContainer/ButtonLocal")
+focus_previous = NodePath("../HBoxContainer/ButtonOnline")
+size_flags_horizontal = 6
+size_flags_vertical = 4
+theme = ExtResource( 1 )
+text = "Quit"
 
 [node name="PopupLocal" type="PopupDialog" parent="."]
 anchor_left = 0.15
@@ -200,6 +216,7 @@ __meta__ = {
 
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/ButtonLocal" to="." method="_on_ButtonLocal_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/ButtonOnline" to="." method="_on_ButtonOnline_pressed"]
+[connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
 [connection signal="value_changed" from="PopupLocal/VBoxContainer/LocalSlider" to="." method="_on_HSlider_value_changed"]
 [connection signal="text_changed" from="PopupLocal/VBoxContainer/LocalNbPlayers" to="." method="_on_LineEdit_text_changed"]
 [connection signal="pressed" from="PopupLocal/VBoxContainer/LocalStart" to="." method="_on_LocalStart_pressed"]
