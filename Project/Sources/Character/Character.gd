@@ -36,9 +36,6 @@ func _ready():
 	$LifeBar.max_value = start_life
 	$LifeBar.value = current_life
 	
-	# Copy of the body shape into the FallArea, to ensure same behaviour between
-	# falling and colliding
-	$FallArea.add_child($BodyShape.duplicate())
 	$FallArea.connect("body_entered", self, "_on_FallArea_body_entered")
 
 func start(pos, ctrler):
