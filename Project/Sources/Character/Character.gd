@@ -180,3 +180,4 @@ func _on_CatchArea_body_entered(body):
 
 func _on_FallArea_body_entered(_body):
 	print(myName + " fell into the emptyness")
+	emit_signal("die")
