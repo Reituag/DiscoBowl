@@ -117,5 +117,6 @@ func endGame(winner_index):
 	endMenu.show()
 
 func _onQuitButtonPressed():
-#	get_tree().change_scene_to(Global.mainMenu)
-	get_tree().quit()
+	get_tree().paused = false
+	get_tree().change_scene_to(Global.mainMenu)
+	queue_free()
