@@ -15,12 +15,15 @@ var scene_parameters : Dictionary = {
 
 onready var arena : Map = $Arena
 onready var endMenu : PopupDialog = $EndMenu
-onready var quitButton : Button = $EndMenu/VBoxContainer/QuitButton
+onready var quitButton : Button = $EndMenu/VBoxContainer/HBoxContainer/QuitButton
+onready var mainMenuButton : Button = $EndMenu/VBoxContainer/HBoxContainer/MainMenuButton
+onready var winLabel : Label = $EndMenu/VBoxContainer/win_txt
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
 	quitButton.connect("pressed", self, "_onQuitButtonPressed")
+	mainMenuButton.connect("pressed", self, "_onMainMenuButtonPressed")
 	
 	var players = scene_parameters['players']
 	# Characters & Controllers instanciation
@@ -111,12 +114,22 @@ func _onCharacterDie(character):
 			endGame(index_alive)
 
 func endGame(winner_index):
+	# Pause background game
 	get_tree().paused = true
+	# Change mouse visibility before showing menu
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	# Moving the menu to last child position, to show the menu above all nodes
 	move_child(endMenu, get_children().size())
+	# Setting winner's name
+	winLabel.text = "Player {0} wins !".format(
+		[scene_parameters['players'][winner_index]['id']])
+	# Menu display
 	endMenu.show()
 
 func _onQuitButtonPressed():
+	get_tree().quit()
+
+func _onMainMenuButtonPressed():
 	get_tree().paused = false
-	get_tree().change_scene_to(Global.mainMenu)
+	var _out = get_tree().change_scene_to(Global.mainMenu)
 	queue_free()

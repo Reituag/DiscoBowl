@@ -30,13 +30,13 @@ signal die
 
 func _ready():
 	hide()
-	$CatchArea.connect("body_entered", self, "_on_CatchArea_body_entered")
+	var _out = $CatchArea.connect("body_entered", self, "_on_CatchArea_body_entered")
 	$CatchArea.scale = Vector2(0.1, 0.1)
 	current_life = start_life
 	$LifeBar.max_value = start_life
 	$LifeBar.value = current_life
 	
-	$FallArea.connect("body_entered", self, "_on_FallArea_body_entered")
+	_out = $FallArea.connect("body_entered", self, "_on_FallArea_body_entered")
 
 func start(pos, ctrler):
 	# start position definition
@@ -74,7 +74,7 @@ func _physics_process(_delta):
 		velocity += remaining_speed*speed
 		remaining_speed = remaining_speed*damping_factor
 	
-	move_and_slide(velocity)
+	var _out = move_and_slide(velocity)
 	
 	#######################
 	# Throwing management #
